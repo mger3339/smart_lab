@@ -89,6 +89,8 @@
         </div>
         <div class="clear"></div>
         <ul class="data-rows-list" id="users_list">
+<!--            <pre>-->
+<!--                --><?php //print_r($users); die; ?>
             <?php foreach ($users as $row): ?>
                 <li class="data-row">
                     <?php echo $this->load->view('admin/users/partials/user_row', array(

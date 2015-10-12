@@ -597,4 +597,14 @@ class User_model extends Smartlab_model {
         return $query->result_object();
     }
 
+    public function get_users_by_id($data)
+    {
+            $this->_database->order_by('lastname','ASC');
+            $this->_database->where('deleted',0);
+            $this->_database->where("users.id !=",$_SESSION["user_id"]);
+            $this->_database->where_in('users.id',$data);
+            $query = $this->_database->get('users');
+            return $query->result_object();
+    }
+
 }

@@ -305,7 +305,6 @@ $(document).ready(function() {
         $("input.check_users:checkbox:checked").each(function() {
             ids.push($(this).attr('id'));
         });
-
         if (requestURL && ids.length) {
 
             var requestOptions = {
@@ -313,6 +312,8 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.status == 'success') {
                         $(dataRow).append(data.content);
+                        $("#users_list").empty();
+                        $("#users_list").append(data.users)
                         $(dataRowItem).hide();
                         hideRowButtons();
                         initFormUIElements();

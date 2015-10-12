@@ -627,13 +627,13 @@ class Users extends Admin_context {
     public function edit_user_role()
     {
         $data = $this->input->get('user_ids');
-
         $this->load->model('user_role_model');
         $all_roles = $this->user_role_model->get_roles_select_options();
-
         $this->content['all_roles'] = $all_roles;
         $this->content['user_ids'] = implode(',',$data);
-
+        $this->load->model('user_model');
+        $this->content['users'] = $this->user_model->get_users_by_id($data);
+        $this->json['users'] = $this->load->view('admin/users/partials/user_row_by_id', $this->content, TRUE);
         $this->json['content'] = $this->load->view('admin/users/partials/user_role_row', $this->content, TRUE);
 
         return $this->ajax_response();
