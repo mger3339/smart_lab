@@ -1,0 +1,1 @@
+<a class="timeline-admin-btn" href="<?php echo site_url('timeline/configure'); ?>">Configure</a>

@@ -1,0 +1,41 @@
+@import "variables";
+
+.admin-content.notifications {
+
+	.control-group {
+		width: 80%;
+		padding-left: 10%;
+
+		textarea {
+			width: 100%;
+			padding: 3px 3px 3px 3px;
+			font-family: "Helvetica Neue", Arial, sans-serif;
+			font-size: 14px;
+			line-height: 18px;
+			border: 2px solid #ccc;
+			border-radius: 0px;
+			margin: 0;
+			color: #222;
+			background-color: #fafafa;
+			box-sizing: border-box;
+			
+			&:focus {
+				color: @font-hilight-color;
+				border-color: @font-hilight-color;
+			}
+		}
+
+		#send-notification-btn {
+			margin: 0;
+		}
+	}
+
+	.data-rows-list {
+		.row-btns {
+			p.right {
+				margin-top: 6px;
+				width: auto;
+			}
+		}
+	}
+}

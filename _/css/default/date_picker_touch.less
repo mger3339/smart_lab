@@ -1,0 +1,84 @@
+.mobile-date-picker {
+	display: none;
+}
+
+.mobile-date-picker-wrap {
+	position: relative;
+	display: none;
+	width: 100%;
+	height: 90px;
+	
+	.clear { clear: both; }
+	
+	.left,
+	.middle,
+	.right {
+		float: left !important;
+		position: relative;
+		display: block;
+		width: 32%;
+		
+		.button,
+		.value {
+			position: relative;
+			display: block;
+			height: 16px;
+			padding: 7px 0 7px 0;
+			color: #fff;
+			font-size: 14px;
+			line-height: 16px;
+			font-weight: bold;
+			text-align: center;
+			background-color: #888;
+			cursor: pointer;
+		}
+		
+		.button {
+			height: 24px;
+			padding: 3px 0 3px 0;
+			line-height: 22px;
+			font-size: 18px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		.button-top {
+			border-top-left-radius: 11px;
+			border-top-right-radius: 11px;
+		}
+		
+		.button-bottom {
+			border-bottom-left-radius: 11px;
+			border-bottom-right-radius: 11px;
+		}
+		
+		&:hover .button,
+		&:hover .value {
+			background-color: #111;
+		}
+		
+	}
+	
+	.middle,
+	.right {
+		margin: 0 0 0 1.4%;
+	}
+}
+
+.date-time {
+	
+	.left,
+	.middle,
+	.right {
+		width: 19%;
+	}
+	
+	.middle,
+	.right {
+		margin: 0 0 0 1.2% !important;
+	}
+}

@@ -1,0 +1,54 @@
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+#header {
+	
+	#app-navigation-toggle {
+		float: left;
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		margin: 15px 0 0 8px;
+		background-color: #2b3848;
+		background-image: url(/_/img/glyphicons/png/glyphicons-137-cogwheel-white.png);
+		background-position: center center;
+		background-repeat: no-repeat;
+		border-radius: 15px;
+		cursor: pointer;
+		
+		&.admin {
+			-webkit-animation: spin 4s linear infinite;
+			-moz-animation: spin 4s linear infinite;
+			animation: spin 4s linear infinite;
+		}
+	}
+}
+
+#main-navigation {
+	width: 200%;
+	
+	.navigation-content {
+		float: left;
+		position: relative;
+		display: block;
+		width: 50%;
+		height: 30px;
+	}
+	
+	a {
+		float: left;
+		position: relative;
+		display: inline-block;
+		height: 20px;
+		padding: 5px 20px 0 0;
+		color: #fff;
+		font-size: 14px;
+		line-height: 20px;
+	}
+}
+
+#footer {
+	background-color: #2b3848;
+}
+

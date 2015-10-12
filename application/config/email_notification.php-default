@@ -1,0 +1,24 @@
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
+
+/*
+|--------------------------------------------------------------------------
+| Email notification class config
+|--------------------------------------------------------------------------
+*/
+
+$config['email_notification_enable']		= TRUE;
+$config['email_notification_from_email']	= SYSTEM_EMAIL;
+
+// SMTP settings:
+// You can set the config items below to enable sending emails
+// with an SMTP account such as googlemail.
+$config['email_notification_use_smtp']		= FALSE;
+$config['email_notification_protocol']		= 'smtp';
+$config['email_notification_smtp_host']		= '';			// e.g. ssl://smtp.googlemail.com
+$config['email_notification_smtp_user']		= '';			// e.g. my-name@gmail.com
+$config['email_notification_smtp_pass']		= '';			// mail account password
+$config['email_notification_smtp_port']		= 465;
+$config['email_notification_smtp_timeout']	= 20;
+
+/* End of file email_notification.php */
+/* Location: ./application/config/email_notification.php */

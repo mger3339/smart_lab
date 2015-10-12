@@ -1,0 +1,147 @@
+.gldp-smartlab {
+	position: absolute;
+	font-family: 'helvetica';
+	background-color: #fff;
+	border: 2px solid #222;
+}
+
+/* Core style for every cell */
+.gldp-smartlab .core {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	position: relative;
+	float: left;
+	padding: 0;
+	margin: 0;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+	color: #222;
+	background: #ffffff;
+}
+
+/* Cell border */
+.gldp-smartlab .border {
+	border-style: solid;
+	border-width: 0;
+	border-color: #fff;
+}
+
+/* Month/Year text and select */
+.gldp-smartlab .monyear,
+.gldp-smartlab .monyear select {
+	font-size: 14px !important;
+	font-weight: bold;
+}
+
+.gldp-smartlab .monyear select {
+	width: auto;
+	height: auto;
+	padding: 3px 21px 3px 3px;
+	margin: 0;
+	color: #222;
+	border: none;
+	background-color: transparent;
+	
+	&:-moz-focus-inner {
+		border: 0;
+	}
+	
+	&:focus {
+		color: #222;
+	}
+}
+
+/* Month/Year text */
+.gldp-smartlab .monyear span {
+	margin: 0 5px 0 5px;
+}
+
+/* Prev/Next arrows */
+.gldp-smartlab .prev-arrow,
+.gldp-smartlab .next-arrow {
+	color: #888;
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.gldp-smartlab .prev-arrow:active,
+.gldp-smartlab .next-arrow:active {
+	color: #222;
+}
+
+.gldp-smartlab .prev-arrow-off,
+.gldp-smartlab .next-arrow-off {
+	color: #222;
+	opacity: 0.15;
+}
+
+/* Days of the week */
+.gldp-smartlab .dow {
+	color: #888;
+	font-weight: bold;
+}
+
+/* Weekdays */
+.gldp-smartlab .mon,
+.gldp-smartlab .tue,
+.gldp-smartlab .wed,
+.gldp-smartlab .thu,
+.gldp-smartlab .fri {
+	font-weight: bold;
+}
+
+/* Weekend days */
+.gldp-smartlab .sat,
+.gldp-smartlab .sun {
+	color: #888;
+	font-weight: bold;
+}
+
+/* Selectable days that are outside of current month being shown */
+.gldp-smartlab .outday {
+	color: #aaa !important;
+}
+
+/* Hover */
+.gldp-smartlab .mon:hover,
+.gldp-smartlab .tue:hover,
+.gldp-smartlab .wed:hover,
+.gldp-smartlab .thu:hover,
+.gldp-smartlab .fri:hover,
+.gldp-smartlab .sat:hover,
+.gldp-smartlab .sun:hover {
+	background: #eee;
+}
+
+/* Non-Selectable days */
+.gldp-smartlab .noday {
+	color: #bbb;
+	font-weight: normal;
+	cursor: wait !important;
+	background: #ddd;
+}
+
+/* Currently selected day */
+.gldp-smartlab .selected {
+	color: #fff;
+	font-weight: bold;
+	border-color: #222;
+	background: #222;
+}
+
+/* Today */
+.gldp-smartlab .today {
+	color: #fff;
+	font-weight: bold;
+	border-color: #000;
+	background: #ccc;
+}
+
+/* Special */
+.gldp-smartlab .special {
+	color: #fff;
+	font-weight: bold;
+	border-color: #444;
+	background: #666;
+}

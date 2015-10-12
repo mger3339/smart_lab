@@ -1,0 +1,2 @@
+<h1><span><?php echo $client->name; ?></span> is no longer available.</h1>
+<p>Contact <a href="mailto:<?php echo $client->admin_user->email; ?>"><?php echo $client->admin_user->email; ?></a> with any enquiries regarding this.</p>

@@ -1,0 +1,1 @@
+<h1><?php echo APPLICATION_NAME; ?></h1>

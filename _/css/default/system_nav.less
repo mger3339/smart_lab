@@ -1,0 +1,103 @@
+#system-nav {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: auto;
+	z-index: 1;
+	
+	.system-nav-items {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 0px;
+		color: #eee;
+		background-color: #111;
+		overflow: hidden;
+		
+		.system-nav-item {
+			position: relative;
+			display: none;
+			width: auto;
+			height: auto;
+			padding: 20px 10px 20px 10px;
+			
+			h1, h2, h3, h4, p, a {
+				padding: 0;
+				margin: 0;
+				color: #eee;
+				font-size: 12px;
+				line-height: 16px;
+				letter-spacing: normal;
+			}
+			
+			a {
+				color: #fff;
+			}
+			
+			.system-nav-item-btn {
+				float: right;
+				position: relative;
+				display: block;
+				width: 60px;
+				height: 80px;
+				padding: 0 10px 0 10px;
+				
+				.icon {
+					position: relative;
+					display: block;
+					width: 44px;
+					height: 44px;
+					margin: 0 auto 0 auto;
+					border: 2px solid #eee;
+					border-radius: 5px;
+				}
+				
+				.title {
+					position: relative;
+					display: block;
+					padding: 6px 0 0 0;
+					font-size: 11px;
+					line-height: 12px;
+					text-align: center;
+				}
+			}
+		}
+	}
+	
+	.system-nav-btns {
+		position: absolute;
+		right: 0px;
+		bottom: -45px;
+		z-index: 1;
+		
+		.system-nav-btn {
+			float: right;
+			position: relative;
+			display: block;
+			width: 30px;
+			height: 30px;
+			margin: 0 15px 0 0;
+			color: #fff;
+			background-color: #2b3848;
+			background-position: center center;
+			background-repeat: no-repeat;
+			border-radius: 15px;
+			cursor: pointer;
+			z-index: 1;
+		}
+		
+		#user_nav-nav-btn {
+			background-image: url(/_/img/glyphicons/png/glyphicons-4-user-white.png);
+			background-position: center bottom;
+		}
+		
+		#applications_nav-nav-btn {
+			background-image: url(/_/img/glyphicons/png/glyphicons-518-option-vertical-white.png);
+		}
+
+		#notifications-nav-btn, #user-notifications-nav-btn {
+			background-image: url(/_/img/glyphicons/png/glyphicons-242-flash-white.png);
+		}
+
+	}
+}

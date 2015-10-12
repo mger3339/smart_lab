@@ -1,0 +1,68 @@
+#notifications-aside {
+	z-index: 1000;
+	position: absolute;
+	width: 350px;
+	height: 100%;
+	right: 0;
+	margin-right: -360px;
+	background-color: #fafafa;
+
+	.section {	
+	    position: relative;
+	    padding: 20px 0 20px 0;
+	    margin: 0 -10px 0 -10px;
+	    border-top: 2px solid #ccc;
+	    border-top-width: 2px;
+	    border-top-style: solid;
+	    border-top-color: rgb(204, 204, 204);
+	    font-size: 11px;
+	    line-height: 1.4em;
+
+	    .details {
+			padding-left: 40px;
+			background: url(/_/img/glyphicons/png/glyphicons-46-calendar.png) 0 5px no-repeat;
+
+		    .timeago { color: #aaa; }
+		    .message {
+		    	font-size: 12px;
+		    	padding-bottom: 0;
+		    	padding-top: 5px;
+		    }	    	
+	    }
+	}
+
+	/* override jQuery UI tabs style */
+	.ui-widget-header {
+	    background-color: #ccc;
+	    color: #444;
+	    border-bottom: none;
+	}
+
+	.ui-widget-content {
+	    border: none;
+	}
+
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	    border: 1px solid #ddd;
+	    background: #fff;
+	    font-weight: normal;
+	}
+
+	.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+	    color: #aaa;
+	    text-decoration: none;
+	}
+
+	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	    border: 1px solid #ddd;
+	    border-bottom: none;
+	    background: #fafafa;
+	    font-weight: normal;
+	    color: #aaa;
+	}
+
+	.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	    color: #888;
+	    text-decoration: none;
+	}
+}

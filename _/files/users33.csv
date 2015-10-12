@@ -1,0 +1,3 @@
+user_role,email,username,password,firstname,lastname,country_iso,time_zone
+admin,12345@admin.ru,asdasdasd,admin1,admin2,asdasd,GB,UTC
+admin,54321@admin.ru,asdasdasd44,admin15,admin26,asdasd,GB,UTC
