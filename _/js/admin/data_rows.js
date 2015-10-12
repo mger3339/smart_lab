@@ -13,6 +13,7 @@ $(document).ready(function() {
         $('.edit_user_role').hide();
         $('.edit_user_group').hide();
         $('.select_all_users').hide();
+        $('.deselect_all_users').hide();
 	}
 
 	var showRowButtons = function() {
@@ -25,14 +26,14 @@ $(document).ready(function() {
 		$('.edit_user_role').show();
 		$('.edit_user_group').show();
 		$('.select_all_users').show();
+        $('.deselect_all_users').show();
 	}
 
 	// add - put row
 	$('.add-row').on('click', '.add-row-btn, .import-row-btn', function(event) {
-
 		var dataRow = $(this).siblings('.data-rows-list').find('.data-row');
 		var requestURL = $(this).attr('data-url');
-
+        console.log(dataRow);
 		if (requestURL) {
 
 			var requestOptions = {
@@ -562,6 +563,16 @@ $(document).ready(function() {
         event.preventDefault();
     });
 
+    $(".select_all_users").on('click', function(){
+            $(".check_users").each(function(){
+                this.checked = true;
+            });
+    });
+    $(".deselect_all_users").on('click', function(){
+        $(".check_users").each(function(){
+            this.checked = false;
+        });
+    });
 
 });
 

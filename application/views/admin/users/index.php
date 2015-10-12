@@ -73,6 +73,7 @@
         <div class="users_options">
             <div>
                 <button class="select_all_users">Select All</button>
+                <button class="deselect_all_users">Deselect All</button>
                 <button class="edit_user_role" data-url="<?php echo 'admin/users/edit_user_role'; ?>">Edit User Role</button>
                 <button class="edit_user_group" data-url="<?php echo 'admin/users/edit_groups'?>">Edit Groups</button>
 

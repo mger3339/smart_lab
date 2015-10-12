@@ -66,6 +66,7 @@ class Users extends Admin_context {
 		$this->js_assets[] = 'admin/data_rows.js';
 
         $all_roles = $this->user_role_model->get_roles_select_options();
+
         $this->load->model('country_model');
         $this->load->model('time_zone_model');
 
@@ -198,7 +199,6 @@ class Users extends Admin_context {
 	{
 		$success = TRUE;
 		$data = $this->input->post();
-
         // set up form validation for password submission
         $this->load->library('form_validation');
         $this->form_validation->set_rules('new_password', 'new password', 'required|trim|min_length[8]|valid_password');
