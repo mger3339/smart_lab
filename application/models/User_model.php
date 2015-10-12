@@ -512,9 +512,9 @@ class User_model extends Smartlab_model {
                 $this->_database->group_start();
                 $free_text = $data['free_text'];
                 $this->_database->like("username", $free_text);
-                $this->_database->like("firstname", $free_text);
-                $this->_database->like("lastname", $free_text);
-                $this->_database->like("email", $free_text);
+                $this->_database->or_like("firstname", $free_text);
+                $this->_database->or_like("lastname", $free_text);
+                $this->_database->or_like("email", $free_text);
 
                 $this->_database->group_end();
 
