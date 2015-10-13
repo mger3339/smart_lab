@@ -453,6 +453,7 @@ class Users extends Admin_context {
         $this->content['time_zone_options'] = $time_zone_options;
 
         $this->content['users'] = $users;
+        $this->content['date'] = $data['commence'];
         $this->content['total_users'] = $total_users;
         $this->content['all_roles'] = $all_roles;
         $this->content['country_options'] = $country_options;
@@ -474,7 +475,6 @@ class Users extends Admin_context {
         }
         $this->wrap_views[] = $this->load->view('admin/users/index', $this->content, TRUE);
         $this->render();
-
     }
 
     public function import() {

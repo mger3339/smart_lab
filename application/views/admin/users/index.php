@@ -59,6 +59,18 @@
                 <label>City</label>
                 <input name="city" type="text" value="<?php echo $this->input->get('city'); ?>">
             </div>
+            <div class="control-group control-group-date-time">
+                <label>Created after</label>
+                <input
+                    id="commence"
+                    class="mobile-date-picker"
+                    type="text"
+                    name="commence"
+                    value="2014-10-13"
+                    data-value =""
+                    />
+                <?php echo form_error('commence'); ?>
+            </div>
 
 
 

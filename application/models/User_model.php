@@ -551,6 +551,11 @@ class User_model extends Smartlab_model {
                 $this->_database->like("city", $city);
 
             }
+            if($data['commence'])
+            {
+                $commence = strtotime($data['commence']);
+                $this->db->where('created >=', $commence);
+            }
 
             $this->_database->select('users.*');
 
