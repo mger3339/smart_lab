@@ -31,13 +31,12 @@
                 <?php echo form_error('userfile'); ?>
             </div>
         <?php endif; ?>
-
         <div class="clear"></div>
     </div>
-
+<img class="img_loading" src="<?php echo base_url('_/img/admin/loading.gif'); ?>" />
     <div class="form-btns import-row">
-            <button type="submit" name="put" value="TRUE"><?php echo lang('admin_button_label_import'); ?></button>
-            <a class="nav-btn cancel-import-btn"><?php echo lang('admin_button_label_cancel'); ?></a>
+        <button type="submit" name="put" value="TRUE"><?php echo lang('admin_button_label_import'); ?></button>
+        <a class="nav-btn cancel-import-btn"><?php echo lang('admin_button_label_cancel'); ?></a>
         <div class="clear"></div>
     </div>
 

@@ -33,7 +33,6 @@ $(document).ready(function() {
 	$('.add-row').on('click', '.add-row-btn, .import-row-btn', function(event) {
 		var dataRow = $(this).siblings('.data-rows-list').find('.data-row');
 		var requestURL = $(this).attr('data-url');
-        console.log(dataRow);
 		if (requestURL) {
 
 			var requestOptions = {
@@ -163,7 +162,6 @@ $(document).ready(function() {
 
 
     $('.add-row').on('submit', '.import-row-form', function(event) {
-
         var dataRow = $(this).parents('.data-row');
         var dataRowForm = $(this);
         var requestURL = $(this).attr('action');
@@ -178,10 +176,14 @@ $(document).ready(function() {
                 contentType: false,
                 cache: false,
                 processData: false,
+                beforeSend: function() {
+                    $(".img_loading").show();
+                },
                 success: function(data) {
                     if (data.content) {
                         $(dataRow).html(data.content);
                         initFormUIElements();
+                        $(".img_loading").hide();
                     }
                 }
             };

@@ -484,13 +484,16 @@ class Users extends Admin_context {
 
     public function import_users($import  = '')
     {
+        $users = $this->user_model->get_all();
+        $email = array();
+        foreach($users as $users){
+            $email[] = $users->email;
+        }
         $config['upload_path'] = '_/files/';
         $config['allowed_types'] = 'csv|xls';
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
-
         $success = TRUE;
-
         if (!$this->upload->do_upload('userfile')){
             $userfile_data = array('msg' => $this->upload->display_errors());
 
@@ -500,6 +503,7 @@ class Users extends Admin_context {
             $file_ext = $userfile_data['upload_data']["file_ext"];
 
         }
+
         if($userfile_data['msg'] === 'success') {
             if($file_ext == ".xls") {
                 $file = $userfile_data["upload_data"]["full_path"];
@@ -507,7 +511,6 @@ class Users extends Admin_context {
                 $this->load->library('excel');
 
                 $objPHPExcel = PHPExcel_IOFactory::load($file);
-
                 $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
                 $groups_id = $this->input->post('group_id');
 
@@ -536,6 +539,7 @@ class Users extends Admin_context {
                     }
                 } while ($data = fgetcsv($handle, 1000, "\n", "'"));
 
+                $first_count = count($result);
                 $columns = explode(',', $result[0]);
                 unset($result[0]);
 
@@ -548,8 +552,22 @@ class Users extends Admin_context {
                     for ($i = 0; $i < count($columns); $i++) {
                         $data[$key - 1][$columns[$i]] = $value[$i];
                     }
+                    $data[$key - 1]['client_id'] = 1;
                     $data[$key - 1]['currency'] = $currency;
                     $data[$key - 1]['group_id'] = $groups_id;
+                    $data[$key - 1]['country_iso'] = $this->client->admin_user->country_iso;
+                    $data[$key - 1]['time_zone'] = $this->client->admin_user->time_zone;
+                }
+                foreach($data as $k => $item){
+                    $data[$key - 1]['username'] = $item['email'];
+                    if(in_array($item['email'], $email))
+                    {
+                        unset($data[$k]);
+                    }
+                    if(empty($item['lastname']) || empty($item['firstname']) || empty($item['email']))
+                    {
+                        unset($data[$k]);
+                    }
                 }
             }
 
@@ -562,6 +580,8 @@ class Users extends Admin_context {
             foreach ($data as $val) {
                 $insert_ids[] = $this->user_model->insert($val);
             }
+            $count = count($insert_ids);
+            $unsaccess_count = $first_count - $count;
             $deleted = array();
             if(in_array(false, $insert_ids)){
                 foreach($insert_ids as $insert_id){
@@ -579,10 +599,10 @@ class Users extends Admin_context {
                         $insert_group_id[] = $this->client_user_group_model->insert($group_data);
                     }
                 }
-
             }
+
             if($success) {
-                $this->set_flash_message('success', lang('admin_import_user_success_message'));
+                $this->set_flash_message('success', "$count ".lang('admin_import_user_success_message').": $unsaccess_count users unsuccessfully");
             }else {
                 $this->set_flash_message('error', lang('admin_import_user_error_message'));
             }

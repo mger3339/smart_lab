@@ -551,9 +551,18 @@ class User_model extends Smartlab_model {
                 $this->_database->like("city", $city);
 
             }
+            $data_time = array();
+            $this->db->select('created');
+            $this->db->from('users');
+            $data = $this->db->get()->result();
+            foreach($data as $value)
+            {
+                $date = date('d-m-Y', $value->created);
+                array_push($data_time, $date);
+            }
             if($data['commence'])
             {
-                $commence = strtotime($data['commence']);
+                $commence = $data['commence'];
                 $this->db->where('created >=', $commence);
             }
 
