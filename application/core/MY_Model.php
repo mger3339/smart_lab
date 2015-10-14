@@ -132,7 +132,6 @@ class MY_Model extends CI_Model
     public function get_by()
     {
         $where = func_get_args();
-
         if ($this->soft_delete && $this->_temporary_with_deleted !== TRUE)
         {
             $this->_database->where($this->soft_delete_key, (bool)$this->_temporary_only_deleted);

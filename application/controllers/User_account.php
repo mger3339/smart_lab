@@ -26,9 +26,8 @@ class User_account extends User_context {
 		// load assets
 		$this->css_assets[] = 'default/user_account.less';
 		$this->js_assets[] = 'default/user_account.js';
-		
-		$this->content['update_account_content'] = $this->update_account_content();
-		
+
+        $this->content['update_account_content'] = $this->update_account_content();
 		$this->content['update_password_content'] = $this->update_password_content();
 		
 		$this->wrap_views[] = $this->load->view('user_account/page/header', FALSE, TRUE);
@@ -47,7 +46,23 @@ class User_account extends User_context {
 	public function update_account()
 	{
 		$data = $this->input->post();
-		
+        $config['upload_path'] = '_/img/user';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['overwrite'] = true;
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if(!$this->upload->do_upload('user_image'))
+        {
+            $err = $this->upload->display_errors();
+            echo $err; die;
+        }
+        else
+        {
+            $arr = $this->upload->data();
+            echo "<pre>";
+            print_r($arr);
+        }
+
 		$success = $this->user_model->safe_update($this->user->id, $data);
 		
 		if ( $success )
@@ -74,7 +89,8 @@ class User_account extends User_context {
 	private function update_account_content()
 	{
 		$content = array();
-		$content['user'] = $this->user_model->get($this->user->id);
+		$content['user'] = $this->client->admin_user;
+
 		$this->load->model('country_model');
 		$content['country_options'] = $this->country_model->get_country_options();
 		

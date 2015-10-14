@@ -2,7 +2,6 @@
 $(document).ready(function() {
 	
 	$('.user-account-content').on('submit', '.user-account-form', function(event) {
-		
 		var that = $(this);
 		var requestURL = $(this).attr('action');
 		
@@ -10,7 +9,7 @@ $(document).ready(function() {
 			
 			var requestOptions = {
 				type: 'POST',
-				data: $(that).serialize(),
+				data: that.serialize(),
 				success: function(data) {
 					if (data.content) {
 						$(that).after(data.content);
@@ -22,11 +21,16 @@ $(document).ready(function() {
 			
 			ajaxRequest(requestURL, requestOptions);
 			
-			$(this).find('button').attr('disabled', 'disabled');
+			//$(this).find('button').attr('disabled', 'disabled');
 		}
 		
 		event.preventDefault();
 	});
-	
+	$('.add_expertise_input').on('click', function(){
+        $('.expertised').append('.add_expertise_field');
+    });
+    $('.add_interests_input').on('click', function(){
+        alert("kjsdkljklj");
+    });
 });
 

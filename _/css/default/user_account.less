@@ -1,206 +1,309 @@
 .user-account-content {
-	
+
 	.user-account-form {
-		float: left;
-		position: relative;
-		display: block;
-		width: 440px;
-		padding: 0 40px 0 0;
-		margin: 0;
-		
-		@media only screen and (max-width: 767px) { float: none; width: auto; padding: 0 0 0 0; }
-		@media only screen and (min-width: 768px) and (max-width: 1023px) { width: 320px; }
-		@media only screen and (min-width: 1024px) and (max-width: 1279px) { width: 440px; }
-		@media only screen and (min-width: 1280px) { width: 560px; }
-		
-		.section {
-			position: relative;
-			display: block;
-			width: auto;
-			padding: 0 0 30px 0;
-			margin: 0;
-			
-			@media only screen and (max-width: 767px) { padding: 0 0 20px 0; }
-			
-			h3 {
-				padding: 3px 20px 10px 0;
-				color: #888;
-				font-weight: normal;
-				font-weight: 300;
-				
-				span {
-					color: #222;
-				}
-			}
-			
-			.control-group {
-				float: left;
-				position: relative;
-				width: 200px;
-				padding: 0 20px 5px 0;
-				
-				@media only screen and (max-width: 767px) { float: none; width: auto; padding: 0 0 10px 0; }
-				@media only screen and (min-width: 768px) and (max-width: 1023px) { width: 300px; }
-				
-				label {
-					position: relative;
-					display: inline-block;
-					width: auto;
-					height: 12px;
-					padding: 4px 5px 0 5px;
-					margin: 0;
-					color: #888;
-					font-size: 11px;
-					line-height: 12px;
-				}
-				
-				.checkbox-label {
-					position: relative;
-					display: block;
-					width: auto;
-					height: 18px;
-					padding: 3px 3px 3px 27px;
-					color: #222;
-					font-size: 14px;
-					line-height: 18px;
-					font-weight: 300;
-					vertical-align: middle;
-					background-color: #fff;
-					border: 2px solid #ccc;
-					background-image: url(/_/img/forms/checkbox.gif);
-					background-position: 0 0;
-					background-repeat: no-repeat;
-					cursor: pointer;
-				}
-				
-				.dummy-checkbox-label {
-					margin: 0 0 2px 0;
-					background-color: #fff;
-					border: none;
-					border-radius: 3px;
-					cursor: default;
-				}
-				
-				.checked {
-					background-position: 0 -24px;
-				}
-				
-				input[type=checkbox] {
-					position: absolute;
-					width: 1px;
-					height: 1px;
-					padding: 0;
-					margin: -1px;
-					border: 0;
-					clip: rect(0 0 0 0);
-					overflow: hidden;
-				}
-				
-				p,
-				input[type=text],
-				input[type=password],
-				select {
-					width: 190px;
-					margin: 0;
-					color: #222;
-				}
-				
-				input[type=text],
-				input[type=password],
-				select {
-					
-					@media only screen and (max-width: 1023px) {
-						width: 100%;
-						height: 28px;
-						box-sizing: border-box;
-					}
-				}
-				
-				select {
-					width: 200px;
-					
-					@media only screen and (max-width: 1023px) {
-						width: 100%;
-					}
-				}
-				
-				p {
-					padding: 5px 5px 5px 5px;
-					background-color: #fff;
-					border-radius: 3px;
-				}
-				
-				.error {
-					display: inline-block;
-					width: auto;
-					padding: 4px 5px 4px 5px;
-					margin: 0;
-					font-size: 11px;
-				}
-			}
-			
-			.control-group-large {
-				
-				p,
-				input[type=text],
-				input[type=password] {
-					padding: 2px 3px 2px 3px;
-					font-size: 18px;
-					line-height: 22px;
-					font-weight: bold;
-				}
-				
-				input[type=text],
-				input[type=password] {
-					height: 20px;
-					
-					@media only screen and (max-width: 1023px) {
-						height: 28px;
-					}
-				}
-			}
-			
-			.control-group-wide {
-				width: 420px;
-				
-				@media only screen and (max-width: 1023px) {
-					float: none;
-					width: auto;
-				}
-				
-				p,
-				input[type=text],
-				input[type=password] {
-					width: 410px;
-					
-					@media only screen and (max-width: 1023px) {
-						width: 100%;
-					}
-				}
-				
-				select {
-					width: 420px;
-					
-					@media only screen and (max-width: 1023px) {
-						width: 100%;
-						box-sizing: border-box;
-					}
-				}
-			}
-		}
-		
-		.form-btns {
-			padding: 0 20px 0 0;
-			
-			@media only screen and (max-width: 767px) { padding: 0 0 40px 0; }
-			@media only screen and (min-width: 1280px) { padding: 0 140px 0 0; }
-			
-			button,
-			.nav-btn {
-				float: right;
-				margin: 0 0 0 10px;
-			}
-		}
-	}
+      border: 1px solid red;
+      float: left;
+      position: relative;
+      display: block;
+      width: 100%!important;
+      min-height: 600px;
+      padding: 0;
+      margin: 0;
+
+      @media only screen and (max-width: 767px) {
+        float: none;
+        width: auto;
+        padding: 0 0 0 0;
+      }
+      @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 320px;
+      }
+      @media only screen and (min-width: 1024px) and (max-width: 1279px) {
+        width: 440px;
+      }
+      @media only screen and (min-width: 1280px) {
+        width: 560px;
+      }
+
+      .section_1 {
+        position: relative;
+        display: block;
+        width: 200px;
+        padding: 0 0 30px 0;
+        margin-top: 10px;
+
+        @media only screen and (max-width: 767px) {
+          padding: 0 0 20px 0;
+        }
+
+        .control-group {
+          float: left;
+          position: relative;
+          width: 200px;
+          padding: 0 20px 5px 0;
+
+          @media only screen and (max-width: 767px) {
+            float: none;
+            width: auto;
+            padding: 0 0 10px 0;
+          }
+          @media only screen and (min-width: 768px) and (max-width: 1023px) {
+            width: 300px;
+          }
+
+          label {
+            position: relative;
+            width: auto;
+            height: 12px;
+            padding: 4px 5px 0 5px;
+            margin: 0;
+            color: #888;
+            font-size: 11px;
+            line-height: 12px;
+          }
+
+          p,
+          input[type=text],
+          input[type=password],
+          select {
+            width: 190px;
+            margin: 0;
+            color: #222;
+          }
+
+          input[type=text],
+          input[type=password],
+          select {
+
+            @media only screen and (max-width: 1023px) {
+              width: 100%;
+              height: 28px;
+              box-sizing: border-box;
+            }
+          }
+
+          select {
+            width: 200px;
+
+            @media only screen and (max-width: 1023px) {
+              width: 100%;
+            }
+          }
+
+          p {
+            padding: 5px 5px 5px 5px;
+            background-color: #fff;
+            border-radius: 3px;
+          }
+
+          .error {
+            display: inline-block;
+            width: auto;
+            padding: 4px 5px 4px 5px;
+            margin: 0;
+            font-size: 11px;
+          }
+        }
+
+        .control-group-large {
+
+          p,
+          input[type=text],
+          input[type=password] {
+            padding: 2px 3px 2px 3px;
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: bold;
+          }
+
+          input[type=text],
+          input[type=password] {
+            height: 20px;
+
+            @media only screen and (max-width: 1023px) {
+              height: 28px;
+            }
+          }
+        }
+
+        .control-group-wide {
+          width: 420px;
+
+          @media only screen and (max-width: 1023px) {
+            float: none;
+            width: auto;
+          }
+
+          p,
+          input[type=text],
+          input[type=password] {
+            width: 150px;
+
+            @media only screen and (max-width: 1023px) {
+              width: 100%;
+            }
+          }
+
+          select {
+            width: 420px;
+
+            @media only screen and (max-width: 1023px) {
+              width: 100%;
+              box-sizing: border-box;
+            }
+          }
+        }
+      }
+    }
 }
 
+.upload_button {
+  margin-top: 0!important;
+  margin-left: 19px;
+  position: relative;
+  overflow: hidden;
+}
+.upload_button input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+.edit_img {
+  border: 1px solid #ccc;
+  width: 200px;
+  height: 200px;
+  margin-top: 15px;
+}
+.home_div {
+  width: 200px;
+  float: left;
+}
+
+.section {
+  padding-top: 42px;
+  margin-left: 20px!important;
+  width: 420px;
+  float: left;
+}
+.last_logged {
+  border: 2px solid #CCC;
+  width: 196px;
+  height: 80px;
+  text-align: center;
+  color: #000000;
+  padding-top: 20px;
+}
+.last_logged_span {
+  margin-top: 10px;
+}
+.label_section {
+  color: #000000;
+  height: 25px;
+  margin-bottom: 20px;
+  float: left;
+  width: 150px;
+}
+input[type=text],input[type=password] {
+  margin-bottom: 15px;
+  margin-left: 40px;
+  color: #000000;
+  font-weight: bold;
+}
+select {
+  color: #000000;
+  margin-left: 190px;
+  margin-top: -47px !important;
+  margin-bottom: -25px !important;
+  float: left;
+}
+.groups {
+  border: 1px solid blue;
+  float: left;
+  width: 850px;
+  margin-left: 20px;
+  margin-top: 20px;
+  min-height: 248px;
+}
+.groups label {
+  color: #000000;
+  font-weight: bold;
+}
+.groups input {
+  margin-left: 0;
+  width: 840px;
+}
+#biography {
+  border: 2px solid #CCCCCC;
+  color: #000000;
+}
+.expertise {
+  padding-top: 10px;
+  border: 1px solid red;
+  min-height: 100px;
+}
+.expertise input {
+  width: 200px;
+}
+.add_expertise_input {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000000;
+  margin-left: 20px;
+}
+.add_expertise {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 20px;
+}
+.interests {
+  padding-top: 10px;
+  border: 1px solid red;
+  min-height: 100px;
+}
+.interests input {
+  width: 200px;
+}
+.add_interests_input {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000000;
+  margin-left: 20px;
+}
+.add_interests {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 20px;
+}
+.add_expertise_field {
+  margin-bottom: 10px;
+  border: 1px solid red;
+  width: 420px;
+  height: 28px;
+  margin-left: 150px;
+}
+.add_interests_field {
+  border: 1px solid red;
+  width: 420px;
+  height: 28px;
+  margin-left: 150px;
+}
+.expertise .label_section {
+  font-weight: bold;
+}
+.interests .label_section {
+  font-weight: bold;
+}
