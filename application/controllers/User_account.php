@@ -189,12 +189,20 @@ class User_account extends User_context {
     {
         $client_id = $this->client->id;
         $expertise = $this->input->get('expertise');
-        $data = array(  'expertise' => $expertise,
+        $data_client = array(  'expertise' => $expertise,
                         'client_id' => $client_id
                       );
+        $data = array(  'expertise' => $expertise,);
+
+        $this->load->model('expertise_model');
+        $results = $this->expertise_model->get_expertise_options();
+        print_r($results); die;
+        $add_expertise = $this->expertise_model->insert($data);
+
         $this->load->model('client_expertise_model');
-        $add_expertise = $this->client_expertise_model->insert($data);
-        if($add_expertise)
+        $results_client = $this->client_expertise_model->get_expertise_options();
+        $add_expertise_client = $this->client_expertise_model->insert($data_client);
+        if($add_expertise && $add_expertise_client)
         {
             $this->json['status'] = 'success';
         }
@@ -204,5 +212,20 @@ class User_account extends User_context {
         }
         $this->json['expertise'] = $data;
         return $this->ajax_response();
+    }
+
+    public function delete_expertise()
+    {
+        $expertise_id = $this->input->get('expertise_id');
+        $this->load->model('client_expertise_model');
+        $delete_expertise = $this->client_expertise_model->delete($expertise_id);
+        if($delete_expertise)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
     }
 }

@@ -195,7 +195,7 @@ $b = date_format($date, 'd.  Y');
                 <span class="add_expertise" data-url="<?php echo base_url('user_account/add_expertise') ?>">Add</span>
             </div>
             <?php foreach($expertise_options as $expertise): ?>
-            <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise">X</span></div>
+            <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise" id="<?php echo $expertise->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_expertise') ?>">X</span></div>
             <?php endforeach; ?>
         </div>
         <hr/>

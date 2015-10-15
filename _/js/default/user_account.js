@@ -38,7 +38,20 @@ $(document).ready(function() {
     });
 
     $('.close_expertise').on('click',function(e){
-        $(e.target).closest('.expertise_name').remove();
+        var requestURL = $(this).attr('data-delete-url');
+        var expertise_id = $(this).attr('id');
+        if (requestURL) {
+            var requestOptions = {
+                type: 'GET',
+                data: {expertise_id:expertise_id},
+                success: function (data) {
+                    console.log(data);
+                    $(e.target).closest('.expertise_name').remove();
+                }
+            };
+
+            ajaxRequest(requestURL, requestOptions);
+        }
     });
 
     $('.close_interests').on('click',function(e){
@@ -54,12 +67,17 @@ $(document).ready(function() {
                 type: 'GET',
                 data: {expertise:expertise},
                 success: function (data) {
-                    console.log(data.expertise);
-                    //if (data.content) {
-                    //
-                    //}
+                    console.log(data);
+                    if($('.expertise_name').length > 0){
+                        $('.expertise_name:last').after('<div class="expertise_name"><span class="expertise_span">'+data.expertise.expertise+'</span><span class="close_expertise">X</span></div>');
+                    }
+                    else{
+                        var div = '<div class="expertise_name"><span class="expertise_span">'+data.expertise.expertise+'</span><span class="close_expertise">X</span></div>';
+                        $('.expertise').append(div);
+                    }
                 }
             };
+
             ajaxRequest(requestURL, requestOptions);
         }
     });
