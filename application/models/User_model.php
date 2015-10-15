@@ -135,7 +135,7 @@ class User_model extends Smartlab_model {
 		
 		// get and set the base user roles
 		$this->load->model('user_role_model');
-		$this->_base_user_roles = $this->user_role_model->get_roles();
+        $this->_base_user_roles = $this->user_role_model->get_roles();
 	}
 
 

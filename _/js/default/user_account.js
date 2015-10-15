@@ -9,7 +9,7 @@ $(document).ready(function() {
 			
 			var requestOptions = {
 				type: 'POST',
-				data: that.serialize(),
+				data: $(that).serialize(),
 				success: function(data) {
 					if (data.content) {
 						$(that).after(data.content);
@@ -26,11 +26,42 @@ $(document).ready(function() {
 		
 		event.preventDefault();
 	});
-	$('.add_expertise_input').on('click', function(){
-        $('.expertised').append('.add_expertise_field');
+
+    $('body').on('click','.add_expertise_input', function(e){
+        var ddd = $('.add_expertise_field').clone().first();
+        $('.add_expertise_field:last').after(ddd);
     });
-    $('.add_interests_input').on('click', function(){
-        alert("kjsdkljklj");
+
+    $('body').on('click','.add_interests_input', function(){
+        var eee = $('.add_interests_field').clone().first();
+        $('.add_interests_field:last').after(eee);
+    });
+
+    $('.close_expertise').on('click',function(e){
+        $(e.target).closest('.expertise_name').remove();
+    });
+
+    $('.close_interests').on('click',function(e){
+        $(e.target).closest('.interests_name').remove();
+    });
+
+    $('body').on('click','.add_expertise', function(e){
+        var expertise = $(e.target).closest('.add_expertise_field').find('input').val();
+        var requestURL = $(this).attr('data-url');
+
+        if (requestURL) {
+            var requestOptions = {
+                type: 'GET',
+                data: {expertise:expertise},
+                success: function (data) {
+                    console.log(data.expertise);
+                    //if (data.content) {
+                    //
+                    //}
+                }
+            };
+            ajaxRequest(requestURL, requestOptions);
+        }
     });
 });
 

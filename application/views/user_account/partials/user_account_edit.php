@@ -1,5 +1,5 @@
 <!--<pre>-->
-<!--    --><?php //print_r($user); die; ?>
+<!--    --><?php //print_r($expertise_options); die; ?>
 <?php
 $date = date_create();
 
@@ -185,7 +185,6 @@ $b = date_format($date, 'd.  Y');
             <div class="label_section">Expertise:</div>
             <div class="add_expertise_field">
                 <input
-                    id="expertise"
                     type="text"
                     name="expertise"
                     value=""
@@ -193,9 +192,13 @@ $b = date_format($date, 'd.  Y');
                     />
 
                 <span class="add_expertise_input">+</span>
-                <span class="add_expertise">Add</span>
+                <span class="add_expertise" data-url="<?php echo base_url('user_account/add_expertise') ?>">Add</span>
             </div>
+            <?php foreach($expertise_options as $expertise): ?>
+            <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise">X</span></div>
+            <?php endforeach; ?>
         </div>
+        <hr/>
         <div class="interests">
             <div class="label_section">Interests:</div>
             <div class="add_interests_field">
@@ -209,6 +212,11 @@ $b = date_format($date, 'd.  Y');
                 <span class="add_interests_input">+</span>
                 <span class="add_interests">Add</span>
             </div>
+            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
+            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
+            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
+            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
+            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
         </div>
     </div>
 	

@@ -54,7 +54,6 @@ class User_account extends User_context {
         if(!$this->upload->do_upload('user_image'))
         {
             $err = $this->upload->display_errors();
-            echo $err; die;
         }
         else
         {
@@ -99,6 +98,9 @@ class User_account extends User_context {
 		
 		$this->load->model('currency_model');
 		$content['currency_options'] = $this->currency_model->get_currency_options();
+
+        $this->load->model('client_expertise_model');
+        $content['expertise_options'] = $this->client_expertise_model->get_expertise_options();
 
 		return $this->load->view('user_account/partials/user_account_edit', $content, TRUE);
 	}
@@ -183,5 +185,24 @@ class User_account extends User_context {
 		return $this->load->view('user_account/partials/user_password_edit', FALSE, TRUE);
 	}
 
-
+    public function add_expertise()
+    {
+        $client_id = $this->client->id;
+        $expertise = $this->input->get('expertise');
+        $data = array(  'expertise' => $expertise,
+                        'client_id' => $client_id
+                      );
+        $this->load->model('client_expertise_model');
+        $add_expertise = $this->client_expertise_model->insert($data);
+        if($add_expertise)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
+        $this->json['expertise'] = $data;
+        return $this->ajax_response();
+    }
 }
