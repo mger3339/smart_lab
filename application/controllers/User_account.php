@@ -10,7 +10,7 @@ class User_account extends User_context {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		// load relevant lang files
 		$this->lang->load('user_account');
 	}
@@ -29,11 +29,11 @@ class User_account extends User_context {
 
         $this->content['update_account_content'] = $this->update_account_content();
 		$this->content['update_password_content'] = $this->update_password_content();
-		
+
 		$this->wrap_views[] = $this->load->view('user_account/page/header', FALSE, TRUE);
-		
+
 		$this->wrap_views[] = $this->load->view('user_account/index', $this->content, TRUE);
-		
+
 		$this->render();
 	}
 
@@ -63,7 +63,7 @@ class User_account extends User_context {
         }
 
 		$success = $this->user_model->safe_update($this->user->id, $data);
-		
+
 		if ( $success )
 		{
 			$this->json['message'] = 'Your account details have been successfully updated.';
@@ -73,9 +73,9 @@ class User_account extends User_context {
 			$this->json['status'] = 'error';
 			$this->json['message'] = 'There were errors when attempting update your account.';
 		}
-		
+
 		$this->json['content'] = $this->update_account_content();
-		
+
 		return $this->ajax_response();
 	}
 
@@ -92,10 +92,10 @@ class User_account extends User_context {
 
 		$this->load->model('country_model');
 		$content['country_options'] = $this->country_model->get_country_options();
-		
+
 		$this->load->model('time_zone_model');
 		$content['time_zone_options'] = $this->time_zone_model->get_time_zone_options();
-		
+
 		$this->load->model('currency_model');
 		$content['currency_options'] = $this->currency_model->get_currency_options();
 
@@ -121,59 +121,59 @@ class User_account extends User_context {
 		$this->form_validation->set_rules('password', 'password', 'required|trim');
 		$this->form_validation->set_rules('new_password', 'new password', 'required|trim|min_length[8]|valid_password');
 		$this->form_validation->set_rules('new_password_confirm', 're-type password', 'required|matches[new_password]');
-		
+
 		// return the AJAX response if form validation fails
 		if ( ! $this->form_validation->run() )
 		{
 			$this->json['status'] = 'error';
 			$this->json['message'] = 'There were errors when attempting update your password.';
-			
+
 			$this->json['content'] = $this->update_password_content();
-			
+
 			return $this->ajax_response();
 		}
-		
+
 		// check password the current password
 		// and return the AJAX response if current password is invalid
 		$user_password = $this->user_model->get_user_password($this->user->id);
-			
+
 		$this->load->library('phpass');
-		
+
 		if ( ! $this->phpass->check($this->input->post('password'), $user_password) )
 		{
 			$this->json['status'] = 'error';
 			$this->json['message'] = 'The current password you entered is incorrect. Please try again.';
-			
+
 			$this->json['content'] = $this->update_password_content();
-			
+
 			return $this->ajax_response();
 		}
-		
+
 		// if everything is OK we can update the user's password
 		$new_password = $this->input->post('new_password');
 		$new_password = $this->phpass->hash($new_password);
-		
+
 		$update_password = $this->user_model->update($this->user->id, array(
 			'password'		=> $new_password,
 		), TRUE);
-		
+
 		// if database update is unsuccessful
 		// return the AJAX response with an error message
 		if ( ! $update_password )
 		{
 			$this->json['status'] = 'error';
 			$this->json['message'] = 'An error occurred whilst attempting to update your password. Please try again.';
-			
+
 			$this->json['content'] = $this->update_password_content();
-			
+
 			return $this->ajax_response();
 		}
-		
+
 		$this->json['status'] = 'success';
 		$this->json['message'] = 'Your password has been successfully updated.';
-		
+
 		$this->json['content'] = $this->update_password_content();
-		
+
 		return $this->ajax_response();
 	}
 
@@ -196,22 +196,40 @@ class User_account extends User_context {
                         'client_id' => $client_id
                       );
         $data = array(  'expertise' => $expertise,);
-
-        $this->load->model('expertise_model');
-        $results = $this->expertise_model->get_expertise_options();
-//        print_r($results); die;
-        $add_expertise = $this->expertise_model->insert($data);
-
         $this->load->model('client_expertise_model');
-        $results_client = $this->client_expertise_model->get_expertise_options();
-        $add_expertise_client = $this->client_expertise_model->insert($data_client);
-        if($add_expertise && $add_expertise_client)
+        $this->load->model('expertise_model');
+        $aaa = $this->expertise_model->get_by($data);
+        $aaa_client = $this->client_expertise_model->get_by($data);
+        if($aaa && !$aaa_client)
         {
-            $this->json['status'] = 'success';
+            $add_expertise_client = $this->client_expertise_model->insert($data_client);
+            if($add_expertise_client)
+            {
+                $this->json['status'] = 'success';
+            }
+            else
+            {
+                $this->json['status'] = 'error';
+            }
         }
-        else
+        if($aaa && $aaa_client)
         {
+            $this->json['message'] = 'Expertise exist in database';
             $this->json['status'] = 'error';
+        }
+        if(!$aaa && !$aaa_client)
+        {
+            $add_expertise = $this->expertise_model->insert($data);
+
+            $add_expertise_client = $this->client_expertise_model->insert($data_client);
+            if($add_expertise && $add_expertise_client)
+            {
+                $this->json['status'] = 'success';
+            }
+            else
+            {
+                $this->json['status'] = 'error';
+            }
         }
         $this->json['expertise'] = $data;
         return $this->ajax_response();
@@ -240,23 +258,40 @@ class User_account extends User_context {
             'client_id' => $client_id
         );
         $data = array(  'interests' => $interests,);
-
-        $this->load->model('interest_model');
-        $results = $this->interest_model->get_interests_options();
-        //print_r($results); die;
-        $add_interests = $this->interest_model->insert($data);
-
         $this->load->model('client_interest_model');
-        $results_client = $this->client_interest_model->get_interests_options();
-        $add_interests_client = $this->client_interest_model->insert($data_client);
-        if($add_interests && $add_interests_client)
+        $this->load->model('interest_model');
+        $aaa = $this->interest_model->get_by($data);
+        $aaa_client = $this->client_interest_model->get_by($data);
+        if($aaa && !$aaa_client)
         {
-            $this->json['status'] = 'success';
+            $add_interests_client = $this->client_interest_model->insert($data_client);
+            if ($add_interests_client)
+            {
+                $this->json['status'] = 'success';
+            } else
+            {
+                $this->json['status'] = 'error';
+            }
         }
-        else
+        if($aaa && $aaa_client)
         {
+            $this->json['message'] = 'Interest exist in database';
             $this->json['status'] = 'error';
         }
+        if(!$aaa && !$aaa_client)
+        {
+            $add_interests = $this->interest_model->insert($data);
+            $add_interests_client = $this->client_interest_model->insert($data_client);
+            if($add_interests && $add_interests_client)
+            {
+                $this->json['status'] = 'success';
+            }
+            else
+            {
+                $this->json['status'] = 'error';
+            }
+        }
+
         $this->json['interests'] = $data;
         return $this->ajax_response();
     }
@@ -274,5 +309,39 @@ class User_account extends User_context {
         {
             $this->json['status'] = 'error';
         }
+    }
+
+    public function autocomplete_interests()
+    {
+        $text = trim($this->input->get('text'));
+        $this->load->model('interest_model');
+        $result = $this->interest_model->get_interests($text);
+        if($result)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
+        $this->json['result'] = $result;
+        return $this->ajax_response();
+    }
+
+    public function autocomplete_expertise()
+    {
+        $text = trim($this->input->get('text'));
+        $this->load->model('expertise_model');
+        $result = $this->expertise_model->get_expertise($text);
+        if($result)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
+        $this->json['result'] = $result;
+        return $this->ajax_response();
     }
 }

@@ -252,17 +252,25 @@ select {
   width: 200px;
 }
 .add_expertise_input {
+  background-color: #E2E2E2;
   cursor: pointer;
   font-weight: bold;
   font-size: 16px;
   color: #000000;
   margin-left: 20px;
 }
+.add_expertise_input:hover {
+  background-color: #ccc;
+}
 .add_expertise {
+  background-color: #E2E2E2;
   cursor: pointer;
   font-weight: bold;
   color: #000000;
   margin-left: 20px;
+}
+.add_expertise:hover{
+  background-color: #ccc;
 }
 .interests {
   padding-top: 10px;
@@ -272,17 +280,25 @@ select {
   width: 200px;
 }
 .add_interests_input {
+  background-color: #E2E2E2;
   cursor: pointer;
   font-weight: bold;
   font-size: 16px;
   color: #000000;
   margin-left: 20px;
 }
+.add_interests_input:hover {
+  background-color: #ccc;
+}
 .add_interests {
+  background-color: #E2E2E2;
   cursor: pointer;
   font-weight: bold;
   color: #000000;
   margin-left: 20px;
+}
+.add_interests:hover {
+  background-color: #ccc;
 }
 .add_expertise_field {
   margin-left: 200px;
@@ -337,4 +353,36 @@ select {
   width: 150px;
   display: inline-block;
   overflow: hidden;
+}
+.interests_autocomplete {
+  border: 2px solid #636161;
+  width: 206px;
+  min-height: 50px;
+  max-height: 130px;
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  overflow: auto;
+}
+
+.expertise_autocomplete {
+  border: 2px solid #636161;
+  width: 206px;
+  min-height: 50px;
+  max-height: 130px;
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  overflow: auto;
+}
+
+.autocomplete_li {
+  font-weight: bold;
+  cursor: pointer;
+  color: #5F5F5F;
+  padding-left: 5px;
+  list-style: none;
+}
+.autocomplete_li:hover {
+  background-color: #ccc;
 }

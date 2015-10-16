@@ -185,14 +185,18 @@ $b = date_format($date, 'd.  Y');
             <div class="label_section">Expertise:</div>
             <div class="add_expertise_field">
                 <input
+                    data-index="0"
                     type="text"
                     name="expertise"
                     value=""
                     maxlength="60"
+                    data-url="<?php echo base_url('user_account/autocomplete_expertise') ?>"
                     />
-
                 <span class="add_expertise_input">+</span>
                 <span class="add_expertise" data-url="<?php echo base_url('user_account/add_expertise') ?>">Add</span>
+            </div>
+            <div class="expertise_autocomplete">
+                <ul class="autocomplete_ul" ></ul>
             </div>
             <?php foreach($expertise_options as $expertise): ?>
             <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise" id="<?php echo $expertise->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_expertise') ?>">X</span></div>
@@ -203,17 +207,22 @@ $b = date_format($date, 'd.  Y');
             <div class="label_section">Interests:</div>
             <div class="add_interests_field">
                 <input
+                    data-index="0"
                     id="interests"
                     type="text"
                     name="interests"
                     value=""
                     maxlength="60"
+                    data-url="<?php echo base_url('user_account/autocomplete_interests') ?>"
                     />
                 <span class="add_interests_input">+</span>
                 <span class="add_interests" data-url="<?php echo base_url('user_account/add_interests') ?>">Add</span>
             </div>
+            <div class="interests_autocomplete">
+                <ul class="autocomplete_ul" ></ul>
+            </div>
             <?php foreach($interest_options as $interests): ?>
-            <div class="interests_name"><span class="interests_span"><?php echo $interests->interests; ?></span><span class="close_interests" id="<?php echo $interests->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_interests') ?>>X</span></div>
+            <div class="interests_name"><span class="interests_span"><?php echo $interests->interests; ?></span><span class="close_interests" id="<?php echo $interests->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_interests') ?>">X</span></div>
             <?php endforeach; ?>
         </div>
     </div>

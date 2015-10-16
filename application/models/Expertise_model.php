@@ -19,4 +19,21 @@ class Expertise_model extends Smartlab_model {
 
         return $results;
     }
+
+    public function get_expertise($text)
+    {
+        if($text == '')
+        {
+            $this->order_by('expertise', 'ASC');
+            $results = $this->get_all();
+        }
+        else
+        {
+            $this->_database->like("expertise", $text);
+            $this->order_by('expertise', 'ASC');
+            $query = $this->_database->get('expertises');
+            $results = $query->result_object();
+        }
+        return $results;
+    }
 }
