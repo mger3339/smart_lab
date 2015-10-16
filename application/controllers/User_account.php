@@ -102,6 +102,9 @@ class User_account extends User_context {
         $this->load->model('client_expertise_model');
         $content['expertise_options'] = $this->client_expertise_model->get_expertise_options();
 
+        $this->load->model('client_interest_model');
+        $content['interest_options'] = $this->client_interest_model->get_interests_options();
+
 		return $this->load->view('user_account/partials/user_account_edit', $content, TRUE);
 	}
 
@@ -196,7 +199,7 @@ class User_account extends User_context {
 
         $this->load->model('expertise_model');
         $results = $this->expertise_model->get_expertise_options();
-        print_r($results); die;
+//        print_r($results); die;
         $add_expertise = $this->expertise_model->insert($data);
 
         $this->load->model('client_expertise_model');
@@ -220,6 +223,50 @@ class User_account extends User_context {
         $this->load->model('client_expertise_model');
         $delete_expertise = $this->client_expertise_model->delete($expertise_id);
         if($delete_expertise)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
+    }
+
+    public function add_interests()
+    {
+        $client_id = $this->client->id;
+        $interests = $this->input->get('interests');
+        $data_client = array(  'interests' => $interests,
+            'client_id' => $client_id
+        );
+        $data = array(  'interests' => $interests,);
+
+        $this->load->model('interest_model');
+        $results = $this->interest_model->get_interests_options();
+        //print_r($results); die;
+        $add_interests = $this->interest_model->insert($data);
+
+        $this->load->model('client_interest_model');
+        $results_client = $this->client_interest_model->get_interests_options();
+        $add_interests_client = $this->client_interest_model->insert($data_client);
+        if($add_interests && $add_interests_client)
+        {
+            $this->json['status'] = 'success';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+        }
+        $this->json['interests'] = $data;
+        return $this->ajax_response();
+    }
+
+    public function delete_interests()
+    {
+        $interests_id = $this->input->get('interests_id');
+        $this->load->model('client_interest_model');
+        $delete_interests = $this->client_interest_model->delete($interests_id);
+        if($delete_interests)
         {
             $this->json['status'] = 'success';
         }

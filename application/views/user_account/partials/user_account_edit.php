@@ -1,5 +1,5 @@
 <!--<pre>-->
-<!--    --><?php //print_r($expertise_options); die; ?>
+<!--    --><?php //print_r($interest_options); die; ?>
 <?php
 $date = date_create();
 
@@ -210,13 +210,11 @@ $b = date_format($date, 'd.  Y');
                     maxlength="60"
                     />
                 <span class="add_interests_input">+</span>
-                <span class="add_interests">Add</span>
+                <span class="add_interests" data-url="<?php echo base_url('user_account/add_interests') ?>">Add</span>
             </div>
-            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
-            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
-            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
-            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
-            <div class="interests_name">dfhsdkjhdksjhfksdhfjks <span class="close_interests">X</span></div>
+            <?php foreach($interest_options as $interests): ?>
+            <div class="interests_name"><span class="interests_span"><?php echo $interests->interests; ?></span><span class="close_interests" id="<?php echo $interests->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_interests') ?>>X</span></div>
+            <?php endforeach; ?>
         </div>
     </div>
 	
