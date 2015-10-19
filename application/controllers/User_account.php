@@ -26,6 +26,7 @@ class User_account extends User_context {
 		// load assets
 		$this->css_assets[] = 'default/user_account.less';
 		$this->js_assets[] = 'default/user_account.js';
+        $this->js_assets[] = 'default/jquery.fileupload.js';
 
         $this->content['update_account_content'] = $this->update_account_content();
 		$this->content['update_password_content'] = $this->update_password_content();
@@ -37,6 +38,47 @@ class User_account extends User_context {
 		$this->render();
 	}
 
+    public function image_upload()
+    {
+        $config['upload_path'] = '_/img/user';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['overwrite'] = true;
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+        if(!$this->upload->do_upload('user_image'))
+        {
+            $arr = $this->upload->display_errors();
+        }
+        else
+        {
+            $arr = $this->upload->data();
+        }
+        $data_file = array(
+                        'file_type' => $arr['file_type'],
+                        'file_path' => $arr['file_path'],
+                        'url_path'  => base_url().'_/img/user/' .$arr['orig_name'],
+                        'orig_name' => $arr['orig_name'],
+                        'client_name' => $arr['client_name'],
+                        'file_ext' => $arr['file_ext'],
+                        'file_size' => $arr['file_size'],
+                        'is_image' => $arr['is_image'],
+                        'created' => date("Y/m/d")
+                     );
+        $this->load->model('files_model');
+        $add_image = $this->files_model->insert($data_file);
+        if($add_image)
+        {
+            $this->json['status'] = 'success';
+            $this->json['content'] = $add_image;
+            $this->json['image'] = $data_file['url_path'];
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+            $this->json['message'] = 'There were errors when uploading file.';
+        }
+        return $this->ajax_response();
+    }
 
 	/**
 	 * Update user account details on update form submission
@@ -45,23 +87,33 @@ class User_account extends User_context {
 	 */
 	public function update_account()
 	{
+        $user = array();
 		$data = $this->input->post();
-        $config['upload_path'] = '_/img/user';
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['overwrite'] = true;
-        $this->load->library('upload', $config);
-        $this->upload->initialize($config);
-        if(!$this->upload->do_upload('user_image'))
+        if($data['new_password'] == '' || $data['confirm_password'] == '')
         {
-            $err = $this->upload->display_errors();
+            unset($data['new_password']);
+            unset($data['confirm_password']);
         }
         else
         {
-            $arr = $this->upload->data();
-            echo "<pre>";
-            print_r($arr);
+            $data['password'] = $data['new_password'];
+            unset($data['new_password']);
+            unset($data['confirm_password']);
         }
-
+        $user['job_title'] = $data['job_title'];
+        $user['department'] = $data['department'];
+        $user['biography'] = $data['biography'];
+        $user['groups'] = $data['groups'];
+        $expertise = $data['hidden_expertise'];
+        $interests = $data['hidden_interests'];
+        unset($data['job_title']);
+        unset($data['department']);
+        unset($data['hidden_expertise']);
+        unset($data['hidden_interests']);
+        unset($data['biography']);
+        unset($data['expertise']);
+        unset($data['interests']);
+        unset($data['groups']);
 		$success = $this->user_model->safe_update($this->user->id, $data);
 
 		if ( $success )
@@ -90,6 +142,9 @@ class User_account extends User_context {
 		$content = array();
 		$content['user'] = $this->client->admin_user;
 
+        $this->load->model('files_model');
+        $id = $this->user->avatar_file_id;
+        $content['user_image'] = $this->files_model->get_user_image($id);
 		$this->load->model('country_model');
 		$content['country_options'] = $this->country_model->get_country_options();
 
@@ -203,6 +258,7 @@ class User_account extends User_context {
         if($aaa && !$aaa_client)
         {
             $add_expertise_client = $this->client_expertise_model->insert($data_client);
+            $data['id'] = $aaa->id;
             if($add_expertise_client)
             {
                 $this->json['status'] = 'success';
@@ -220,8 +276,8 @@ class User_account extends User_context {
         if(!$aaa && !$aaa_client)
         {
             $add_expertise = $this->expertise_model->insert($data);
-
             $add_expertise_client = $this->client_expertise_model->insert($data_client);
+            $data['id'] = $add_expertise;
             if($add_expertise && $add_expertise_client)
             {
                 $this->json['status'] = 'success';
@@ -265,6 +321,7 @@ class User_account extends User_context {
         if($aaa && !$aaa_client)
         {
             $add_interests_client = $this->client_interest_model->insert($data_client);
+            $data['id'] = $aaa->id;
             if ($add_interests_client)
             {
                 $this->json['status'] = 'success';
@@ -282,6 +339,7 @@ class User_account extends User_context {
         {
             $add_interests = $this->interest_model->insert($data);
             $add_interests_client = $this->client_interest_model->insert($data_client);
+            $data['id'] = $add_interests;
             if($add_interests && $add_interests_client)
             {
                 $this->json['status'] = 'success';
@@ -291,7 +349,6 @@ class User_account extends User_context {
                 $this->json['status'] = 'error';
             }
         }
-
         $this->json['interests'] = $data;
         return $this->ajax_response();
     }

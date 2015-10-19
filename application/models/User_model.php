@@ -48,6 +48,8 @@ class User_model extends Smartlab_model {
 			'currency'			=> NULL,
             'group_id'          => NUll,
             'city'              => '',
+            'job_title'         => NULL,
+            'department'        => NULL
 	);
 
 
@@ -294,6 +296,7 @@ class User_model extends Smartlab_model {
 
 		return $hash;
 	}
+
 
 
 	/**

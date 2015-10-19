@@ -1,5 +1,5 @@
 <!--<pre>-->
-<!--    --><?php //print_r($interest_options); die; ?>
+<!--    --><?php //print_r($user_image); die; ?>
 <?php
 $date = date_create();
 
@@ -12,12 +12,13 @@ $b = date_format($date, 'd.  Y');
 	<input type="hidden" name="unique_id" value="<?php echo $user->id; ?>" />
 	
 	<input type="hidden" name="client_id" value="<?php echo $user->client_id; ?>" />
+    <input type="hidden" class="avatar_id" name="avatar_file_id" value="<?php echo $user->avatar_file_id; ?>" />
     <div class="home_div">
         <span class="btn btn-default btn-file upload_button">
-                Change profile image <input type="file" name="user_image">
+                Change profile image <input type="file" class="user_image" name="user_image" data-url="<?php echo base_url('user_account/image_upload') ?>">
         </span>
         <div class="edit_img">
-
+            <img src="<?php echo $user_image->url_path;?>" width="100%"/>
         </div>
         <div class="section_1">
 
@@ -122,26 +123,9 @@ $b = date_format($date, 'd.  Y');
 		</div>
 
 		<div class="clear"></div>
-
-        <div class="form-btns">
-            <button type="submit" name="update_account" value="TRUE">Update your account</button>
-            <div class="clear"></div>
-        </div>
 	</div>
 
     <div class="section">
-        <div class="label_section">Confirm new password:</div>
-            <input
-                id="password"
-                type="password"
-                name="password"
-                value=""
-                maxlength="60"
-                autocomplete="off"
-                />
-            <?php echo form_error('password'); ?>
-
-        <div class="clear"></div>
         <div class="label_section">Your new password:</div>
             <input
                 id="new_password"
@@ -152,11 +136,19 @@ $b = date_format($date, 'd.  Y');
                 autocomplete="off"
                 />
             <?php echo form_error('new_password'); ?>
+
         <div class="clear"></div>
-        <div class="form-btns">
-            <button type="submit" name="update_password" value="TRUE">Change your password</button>
-            <div class="clear"></div>
-        </div>
+        <div class="label_section">Confirm new password:</div>
+            <input
+                id="confirm_password"
+                type="password"
+                name="confirm_password"
+                value=""
+                maxlength="60"
+                autocomplete="off"
+                />
+            <?php echo form_error('confirm_password'); ?>
+        <div class="clear"></div>
     </div>
     <div class="groups">
         <div class="control-group control-group-large">
@@ -198,7 +190,9 @@ $b = date_format($date, 'd.  Y');
             <div class="expertise_autocomplete">
                 <ul class="autocomplete_ul" ></ul>
             </div>
+            <?php $expertise_string = array(); ?>
             <?php foreach($expertise_options as $expertise): ?>
+                <?php $expertise_string[] = $expertise->id; ?>
             <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise" id="<?php echo $expertise->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_expertise') ?>">X</span></div>
             <?php endforeach; ?>
         </div>
@@ -221,9 +215,17 @@ $b = date_format($date, 'd.  Y');
             <div class="interests_autocomplete">
                 <ul class="autocomplete_ul" ></ul>
             </div>
+            <?php $interests_string = array(); ?>
             <?php foreach($interest_options as $interests): ?>
+                <?php $interests_string[] = $interests->id; ?>
             <div class="interests_name"><span class="interests_span"><?php echo $interests->interests; ?></span><span class="close_interests" id="<?php echo $interests->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_interests') ?>">X</span></div>
             <?php endforeach; ?>
+        </div>
+        <input type="hidden" class="hidden_expertise" name="hidden_expertise" value="<?php echo implode(",", $expertise_string); ?>">
+        <input type="hidden" class="hidden_interests" name="hidden_interests" value="<?php echo implode(",", $interests_string); ?>">
+        <div class="save_change form-btns">
+            <button type="submit" name="update_account" value="TRUE">Save changes</button>
+            <div class="clear"></div>
         </div>
     </div>
 	

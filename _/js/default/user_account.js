@@ -11,6 +11,7 @@ $(document).ready(function() {
 				type: 'POST',
 				data: $(that).serialize(),
 				success: function(data) {
+                    console.log(data);
 					if (data.content) {
 						$(that).after(data.content);
 						$(that).remove();
@@ -69,7 +70,6 @@ $(document).ready(function() {
                 type: 'GET',
                 data: {interests_id:interests_id},
                 success: function (data) {
-                    console.log(data);
                     $(e.target).parent().remove();
                 }
             };
@@ -87,11 +87,18 @@ $(document).ready(function() {
                 type: 'GET',
                 data: {expertise:expertise},
                 success: function (data) {
-                    alert($('.expertise_name').length);
+                    var hidden_expertise = $('.hidden_expertise').val();
+                    if(hidden_expertise == '')
+                    {
+                        $('.hidden_expertise').val(data.expertise.id);
+                    }
+                    else{
+                        $('.hidden_expertise').val(hidden_expertise + ',' + data.expertise.id);
+                    }
                     if(data.status != 'error')
                     {
                         if($('.expertise_name').length > 0){
-                            $('.expertise_name:last').after('<div class="expertise_name"><span class="expertise_span">'+data.expertise.expertise+'</span><span class="close_expertise">X</span></div>');
+                            $('.expertise_name:last').after('<div class="expertise_name"><span class="expertise_span">'+ data.expertise.expertise +'</span><span class="close_expertise">X</span></div>');
                             if($('.add_expertise_field').find('input').length == 1){
                                 then.parent().find('input').val('');
                             }
@@ -121,7 +128,15 @@ $(document).ready(function() {
                 type: 'GET',
                 data: {interests:interests},
                 success: function (data) {
+                    var hidden_interests = $('.hidden_interests').val();
                     if(data.status != 'error'){
+                        if(hidden_interests == '')
+                        {
+                            $('.hidden_interests').val(data.interests.id);
+                        }
+                        else{
+                            $('.hidden_interests').val(hidden_interests + ',' + data.interests.id);
+                        }
                         if($('.interests_name').length > 0){
                             $('.interests_name:last').after('<div class="interests_name"><span class="interests_span">'+data.interests.interests+'</span><span class="close_interests">X</span></div>');
                             if($('.add_interests_field').find('input').length == 1){
@@ -213,5 +228,16 @@ $(document).ready(function() {
             $('.interests_autocomplete').hide();
         }
     });
+
+    $('.user_image').fileupload({
+        url: $(this).attr('data-url'),
+        dataType: 'json',
+        done: function(e,data) {
+            console.log(data._response);
+            $('.avatar_id').val(data._response.result.content);
+            $('.edit_img img').attr('src', data._response.result.image);
+        }
+    });
+
 });
 
