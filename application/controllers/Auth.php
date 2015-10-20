@@ -54,11 +54,9 @@ class Auth extends Client_context {
 			// set the credentials
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
-			
 			// check for client user first
 			$this->load->model('user_model');
 			$user = $this->user_model->get_by_email_or_username($username);
-			
 			// check if client auto register is enabled if user does not exist
 			if ( ! $user && $this->client->user_auto_register == 1 )
 			{
@@ -109,7 +107,7 @@ class Auth extends Client_context {
 					$this->load->model('login_attempt_model');
 					$user_unlock = $this->login_attempt_model
 						->user_unlock($username, $this->input->ip_address());
-					
+
 					if ( $user_unlock )
 					{
 						$this->user_model->update($user->id, array(
@@ -120,7 +118,7 @@ class Auth extends Client_context {
 					{
 						// redirect to the login form with user locked message
 						$this->set_flash_message('error', lang('login_user_locked'));
-						
+
 						redirect($this->uri->uri_string());
 					}
 				}

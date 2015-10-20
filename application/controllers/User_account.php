@@ -103,7 +103,9 @@ class User_account extends User_context {
         $user['job_title'] = $data['job_title'];
         $user['department'] = $data['department'];
         $user['biography'] = $data['biography'];
-        $user['groups'] = $data['groups'];
+        $user_info_id = $data['user_info_id'];
+        $groups = $data['groups'];
+        $user['user_id'] = $this->user->id;
         $expertise = $data['hidden_expertise'];
         $interests = $data['hidden_interests'];
         unset($data['job_title']);
@@ -114,8 +116,17 @@ class User_account extends User_context {
         unset($data['expertise']);
         unset($data['interests']);
         unset($data['groups']);
+        unset($data['user_info_id']);
 		$success = $this->user_model->safe_update($this->user->id, $data);
-
+        $this->load->model('client_info_model');
+        if(!$user_info_id)
+        {
+            $user_info = $this->client_info_model->insert($user);
+        }
+        else
+        {
+            $user_info = $this->client_info_model->update($user_info_id,$user);
+        }
 		if ( $success )
 		{
 			$this->json['message'] = 'Your account details have been successfully updated.';
@@ -125,6 +136,15 @@ class User_account extends User_context {
 			$this->json['status'] = 'error';
 			$this->json['message'] = 'There were errors when attempting update your account.';
 		}
+        if ( $user_info )
+        {
+            $this->json['message'] = 'Your account details have been successfully updated.';
+        }
+        else
+        {
+            $this->json['status'] = 'error';
+            $this->json['message'] = 'There were errors when attempting update your account.';
+        }
 
 		$this->json['content'] = $this->update_account_content();
 
@@ -141,6 +161,10 @@ class User_account extends User_context {
 	{
 		$content = array();
 		$content['user'] = $this->client->admin_user;
+
+        $user_id = $this->client->id;
+        $this->load->model('client_info_model');
+        $content['user_info'] = $this->client_info_model->get_user_info($user_id);
 
         $this->load->model('files_model');
         $id = $this->user->avatar_file_id;

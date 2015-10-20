@@ -1,6 +1,20 @@
 <!--<pre>-->
-<!--    --><?php //print_r($user_image); die; ?>
+<!--    --><?php //print_r($user_info); die; ?>
 <?php
+if($user_info)
+{
+    $user_info_id = $user_info->id;
+    $job_title =  $user_info->job_title;
+    $department = $user_info->department;
+    $biography = $user_info->biography;
+}
+else
+{
+    $user_info_id = '';
+    $job_title = '';
+    $department = '';
+    $biography = '';
+}
 $date = date_create();
 
 date_timestamp_set($date, $user->last_login);
@@ -10,7 +24,7 @@ $b = date_format($date, 'd.  Y');
 <?php echo form_open_multipart('user_account/update_account', array('id' => 'user-account-update', 'class' => 'user-account-form')); ?>
 	
 	<input type="hidden" name="unique_id" value="<?php echo $user->id; ?>" />
-	
+    <input type="hidden" name="user_info_id" value="<?php echo $user_info_id; ?>" />
 	<input type="hidden" name="client_id" value="<?php echo $user->client_id; ?>" />
     <input type="hidden" class="avatar_id" name="avatar_file_id" value="<?php echo $user->avatar_file_id; ?>" />
     <div class="home_div">
@@ -54,10 +68,9 @@ $b = date_format($date, 'd.  Y');
                     id="job_title"
                     type="text"
                     name="job_title"
-                    value="<?php echo set_value('job_title', $user->lastname); ?>"
+                    value="<?php echo $job_title; ?>"
                     maxlength="60"
                     />
-                <?php echo form_error('lastname'); ?>
             </div>
 
             <div class="clear"></div>
@@ -68,10 +81,9 @@ $b = date_format($date, 'd.  Y');
                     id="department"
                     type="text"
                     name="department"
-                    value=""
+                    value="<?php echo $department; ?>"
                     maxlength="60"
                     />
-                <?php echo form_error('lastname'); ?>
             </div>
 
             <div class="clear"></div>
@@ -169,7 +181,7 @@ $b = date_format($date, 'd.  Y');
                 name="biography"
                 cols="118"
                 rows="5"
-                >
+                ><?php echo $biography; ?>
             </textarea>
             <?php echo form_error('firstname'); ?>
         </div>
