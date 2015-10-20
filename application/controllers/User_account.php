@@ -89,14 +89,41 @@ class User_account extends User_context {
 	{
         $user = array();
 		$data = $this->input->post();
-        if($data['new_password'] == '' || $data['confirm_password'] == '')
+        if(($data['new_password'] && !$data['confirm_password']) || (!$data['new_password'] && $data['confirm_password']))
+        {
+            $this->json['status'] = 'error';
+            $this->json['message'] = 'Missed password when attempting update your password.';
+            return $this->ajax_response();
+        }
+        if(!$data['new_password'] && !$data['confirm_password'])
         {
             unset($data['new_password']);
             unset($data['confirm_password']);
         }
         else
         {
-            $data['password'] = $data['new_password'];
+            // set up form validation for password submission
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('new_password', 'new password', 'trim|min_length[8]|valid_password');
+            $this->form_validation->set_rules('confirm_password', 're-type password', 'matches[new_password]');
+
+            // return the AJAX response if form validation fails
+            if ( ! $this->form_validation->run() )
+            {
+                $this->json['status'] = 'error';
+                $this->json['message'] = 'There were errors when attempting update your password.';
+
+                $this->json['content'] = $this->update_password_content();
+
+                return $this->ajax_response();
+            }
+            $this->load->library('phpass');
+
+            // if everything is OK we can update the user's password
+            $new_password = $data['new_password'];
+            $new_password = $this->phpass->hash($new_password);
+            $data['password'] = $new_password;
+            // if database update is unsuccessful
             unset($data['new_password']);
             unset($data['confirm_password']);
         }
@@ -106,8 +133,6 @@ class User_account extends User_context {
         $user_info_id = $data['user_info_id'];
         $groups = $data['groups'];
         $user['user_id'] = $this->user->id;
-        $expertise = $data['hidden_expertise'];
-        $interests = $data['hidden_interests'];
         unset($data['job_title']);
         unset($data['department']);
         unset($data['hidden_expertise']);
@@ -117,6 +142,7 @@ class User_account extends User_context {
         unset($data['interests']);
         unset($data['groups']);
         unset($data['user_info_id']);
+        print_r($data);die;
 		$success = $this->user_model->safe_update($this->user->id, $data);
         $this->load->model('client_info_model');
         if(!$user_info_id)
@@ -169,7 +195,8 @@ class User_account extends User_context {
         $this->load->model('files_model');
         $id = $this->user->avatar_file_id;
         $content['user_image'] = $this->files_model->get_user_image($id);
-		$this->load->model('country_model');
+
+        $this->load->model('country_model');
 		$content['country_options'] = $this->country_model->get_country_options();
 
 		$this->load->model('time_zone_model');
@@ -197,9 +224,8 @@ class User_account extends User_context {
 	{
 		// set up form validation for password submission
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('password', 'password', 'required|trim');
-		$this->form_validation->set_rules('new_password', 'new password', 'required|trim|min_length[8]|valid_password');
-		$this->form_validation->set_rules('new_password_confirm', 're-type password', 'required|matches[new_password]');
+		$this->form_validation->set_rules('new_password', 'new password', 'trim|min_length[8]|valid_password');
+		$this->form_validation->set_rules('confirm_password', 're-type password', 'matches[new_password]');
 
 		// return the AJAX response if form validation fails
 		if ( ! $this->form_validation->run() )
@@ -211,22 +237,7 @@ class User_account extends User_context {
 
 			return $this->ajax_response();
 		}
-
-		// check password the current password
-		// and return the AJAX response if current password is invalid
-		$user_password = $this->user_model->get_user_password($this->user->id);
-
 		$this->load->library('phpass');
-
-		if ( ! $this->phpass->check($this->input->post('password'), $user_password) )
-		{
-			$this->json['status'] = 'error';
-			$this->json['message'] = 'The current password you entered is incorrect. Please try again.';
-
-			$this->json['content'] = $this->update_password_content();
-
-			return $this->ajax_response();
-		}
 
 		// if everything is OK we can update the user's password
 		$new_password = $this->input->post('new_password');
@@ -247,11 +258,15 @@ class User_account extends User_context {
 
 			return $this->ajax_response();
 		}
+        else
+        {
+            $this->json['status'] = 'success';
+            $this->json['message'] = 'Your password has been successfully updated.';
+            $this->json['content'] = $this->update_password_content();
+        }
 
-		$this->json['status'] = 'success';
-		$this->json['message'] = 'Your password has been successfully updated.';
 
-		$this->json['content'] = $this->update_password_content();
+
 
 		return $this->ajax_response();
 	}

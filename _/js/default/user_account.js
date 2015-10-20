@@ -6,7 +6,6 @@ $(document).ready(function() {
 		var requestURL = $(this).attr('action');
 		
 		if (requestURL) {
-			
 			var requestOptions = {
 				type: 'POST',
 				data: $(that).serialize(),
@@ -240,4 +239,3 @@ $(document).ready(function() {
     });
 
 });
-

@@ -22,7 +22,7 @@ $a = date_format($date, 'l F');
 $b = date_format($date, 'd.  Y');
 ?>
 <?php echo form_open_multipart('user_account/update_account', array('id' => 'user-account-update', 'class' => 'user-account-form')); ?>
-	
+    <input type="hidden" />
 	<input type="hidden" name="unique_id" value="<?php echo $user->id; ?>" />
     <input type="hidden" name="user_info_id" value="<?php echo $user_info_id; ?>" />
 	<input type="hidden" name="client_id" value="<?php echo $user->client_id; ?>" />
@@ -163,16 +163,10 @@ $b = date_format($date, 'd.  Y');
         <div class="clear"></div>
     </div>
     <div class="groups">
-        <div class="control-group control-group-large">
-            <label for="groups">Groups</label>
-            <input
-                id="groups"
-                type="text"
-                name="groups"
-                value=""
-                maxlength="60"
-                />
-            <?php echo form_error('firstname'); ?>
+        <div class="groups_div">
+            <label>Groups</label>
+            <div class="groups_text">
+            </div>
         </div>
         <div class="control-group control-group-large">
             <label for="biography">Biography</label>
