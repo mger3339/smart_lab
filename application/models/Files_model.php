@@ -23,7 +23,7 @@ class Files_model extends Smartlab_model {
 
     public function get_user_image($id)
     {
-        $query = $this->_database->get_where($this->_table, array('id' => $id));
+        $query = $this->_database->get_where($this->_table, array('id' => $id, 'is_image' => 1));
 
         $image = $query->row();
 

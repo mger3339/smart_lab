@@ -98,12 +98,15 @@ class User_account extends User_context {
         {
             $this->json['status'] = 'error';
             $this->json['message'] = 'Missed password when attempting update your password.';
+            $this->json['content'] = $this->update_password_content();
             return $this->ajax_response();
         }
         if(!$data['new_password'] && !$data['confirm_password'])
         {
             unset($data['new_password']);
             unset($data['confirm_password']);
+
+            $this->json['content'] = $this->update_password_content();
         }
         else
         {
@@ -117,9 +120,7 @@ class User_account extends User_context {
             {
                 $this->json['status'] = 'error';
                 $this->json['message'] = 'There were errors when attempting update your password.';
-
                 $this->json['content'] = $this->update_password_content();
-
                 return $this->ajax_response();
             }
             $this->load->library('phpass');
@@ -184,9 +185,8 @@ class User_account extends User_context {
                 $this->json['message'] = 'There were errors when attempting update your account.';
             }
         }
-
-		$this->json['content'] = $this->update_account_content();
-		return $this->ajax_response();
+        $this->json['content'] = $this->update_account_content();
+        return $this->ajax_response();
 	}
 
 

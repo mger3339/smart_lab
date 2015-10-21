@@ -501,7 +501,17 @@ class Users extends Admin_context {
             $userfile_data['msg'] = "success";
             $userfile_data['upload_data'] = $this->upload->data();
             $file_ext = $userfile_data['upload_data']["file_ext"];
-
+            $userfile = array(
+                            'file_type' => $userfile_data['upload_data']['file_type'],
+                            'file_path' => $userfile_data['upload_data']['file_path'],
+                            'url_path'  => base_url().'_/files/' .$userfile_data['upload_data']['orig_name'],
+                            'orig_name' => $userfile_data['upload_data']['orig_name'],
+                            'client_name' => $userfile_data['upload_data']['client_name'],
+                            'file_ext' => $userfile_data['upload_data']['file_ext'],
+                            'file_size' => $userfile_data['upload_data']['file_size'],
+                            'is_image' => $userfile_data['upload_data']['is_image'],
+                            'created' => date("Y/m/d")
+                        );
         }
 
         if($userfile_data['msg'] === 'success') {
@@ -530,6 +540,9 @@ class Users extends Admin_context {
                 $data = $arr_data;
 
             }else{
+                $this->load->model('files_model');
+                $add_userfile = $this->files_model->insert($userfile);
+
                 $handle = fopen($userfile_data['upload_data']['full_path'], "r");
                 $data = fgetcsv($handle, 1000, "\n");
                 $result = array();

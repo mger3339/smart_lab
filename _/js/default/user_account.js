@@ -15,6 +15,8 @@ $(document).ready(function() {
 						$(that).after(data.content);
 						$(that).remove();
 						$(that).find('button').removeAttr('disabled');
+                        //var token = $(data.content).find('input[name="smartlab_csrf_token"]').val();
+                        //$('input[name="smartlab_csrf_token"]').val(token);
 					}
 				}
 			};
