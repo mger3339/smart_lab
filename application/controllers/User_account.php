@@ -66,10 +66,15 @@ class User_account extends User_context {
                      );
         $this->load->model('files_model');
         $add_image = $this->files_model->insert($data_file);
+        $this->load->model('user_model');
+        $this->user_model->update($this->user->id,array('avatar_file_id' => $add_image), TRUE);
+
         if($add_image)
         {
             $this->json['status'] = 'success';
-            $this->json['content'] = $add_image;
+            $this->json['id'] = $add_image;
+            $this->json['content'] = $this->update_account_content();
+            $this->json['redirect'] = 'user_account';
             $this->json['image'] = $data_file['url_path'];
         }
         else
@@ -119,11 +124,9 @@ class User_account extends User_context {
             }
             $this->load->library('phpass');
 
-            // if everything is OK we can update the user's password
             $new_password = $data['new_password'];
             $new_password = $this->phpass->hash($new_password);
             $data['password'] = $new_password;
-            // if database update is unsuccessful
             unset($data['new_password']);
             unset($data['confirm_password']);
         }
@@ -131,8 +134,10 @@ class User_account extends User_context {
         $user['department'] = $data['department'];
         $user['biography'] = $data['biography'];
         $user_info_id = $data['user_info_id'];
-        $groups = $data['groups'];
+        //$groups = $data['groups'];
         $user['user_id'] = $this->user->id;
+        $data_expertise = $data['hidden_expertise'];
+        $data_expertise = explode(",", $data_expertise);
         unset($data['job_title']);
         unset($data['department']);
         unset($data['hidden_expertise']);
@@ -142,38 +147,45 @@ class User_account extends User_context {
         unset($data['interests']);
         unset($data['groups']);
         unset($data['user_info_id']);
-        print_r($data);die;
-		$success = $this->user_model->safe_update($this->user->id, $data);
-        $this->load->model('client_info_model');
-        if(!$user_info_id)
-        {
-            $user_info = $this->client_info_model->insert($user);
-        }
-        else
-        {
-            $user_info = $this->client_info_model->update($user_info_id,$user);
-        }
-		if ( $success )
-		{
-			$this->json['message'] = 'Your account details have been successfully updated.';
-		}
-		else
-		{
-			$this->json['status'] = 'error';
-			$this->json['message'] = 'There were errors when attempting update your account.';
-		}
-        if ( $user_info )
-        {
-            $this->json['message'] = 'Your account details have been successfully updated.';
-        }
-        else
+        unset($data['avatar_file_id']);
+        if(count($data_expertise) < 3)
         {
             $this->json['status'] = 'error';
-            $this->json['message'] = 'There were errors when attempting update your account.';
+            $this->json['message'] = 'Please Enter minimum 3 expertise';
+        }
+        else
+        {
+            $success = $this->user_model->safe_update($this->user->id, $data);
+            $this->load->model('client_info_model');
+            if(!$user_info_id)
+            {
+                $user_info = $this->client_info_model->insert($user);
+            }
+            else
+            {
+                $user_info = $this->client_info_model->update($user_info_id,$user);
+            }
+            if ( $success )
+            {
+                $this->json['message'] = 'Your account details have been successfully updated.';
+            }
+            else
+            {
+                $this->json['status'] = 'error';
+                $this->json['message'] = 'There were errors when attempting update your account.';
+            }
+            if ( $user_info )
+            {
+                $this->json['message'] = 'Your account details have been successfully updated.';
+            }
+            else
+            {
+                $this->json['status'] = 'error';
+                $this->json['message'] = 'There were errors when attempting update your account.';
+            }
         }
 
 		$this->json['content'] = $this->update_account_content();
-
 		return $this->ajax_response();
 	}
 
@@ -195,6 +207,16 @@ class User_account extends User_context {
         $this->load->model('files_model');
         $id = $this->user->avatar_file_id;
         $content['user_image'] = $this->files_model->get_user_image($id);
+
+        $groups_id = array();
+        $this->load->model('client_user_group_model');
+        $groups = $this->client_user_group_model->get_groups('user_id',$user_id);
+        foreach($groups as $value)
+        {
+            $groups_id[] = $value;
+        }
+        $this->load->model('client_group_model');
+        $content['groups'] = $this->client_group_model->get_groups_by_id($groups_id);
 
         $this->load->model('country_model');
 		$content['country_options'] = $this->country_model->get_country_options();

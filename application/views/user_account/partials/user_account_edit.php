@@ -1,5 +1,5 @@
 <!--<pre>-->
-<!--    --><?php //print_r($user_info); die; ?>
+<!--    --><?php //print_r($groups); die; ?>
 <?php
 if($user_info)
 {
@@ -26,16 +26,14 @@ $b = date_format($date, 'd.  Y');
 	<input type="hidden" name="unique_id" value="<?php echo $user->id; ?>" />
     <input type="hidden" name="user_info_id" value="<?php echo $user_info_id; ?>" />
 	<input type="hidden" name="client_id" value="<?php echo $user->client_id; ?>" />
-    <input type="hidden" class="avatar_id" name="avatar_file_id" value="<?php echo $user->avatar_file_id; ?>" />
     <div class="home_div">
         <span class="btn btn-default btn-file upload_button">
                 Change profile image <input type="file" class="user_image" name="user_image" data-url="<?php echo base_url('user_account/image_upload') ?>">
         </span>
         <div class="edit_img">
-            <img src="<?php echo $user_image->url_path;?>" width="100%"/>
+            <img src="<?php echo empty($user_image->url_path) ? '': $user_image->url_path;?>" width="200px"/>
         </div>
         <div class="section_1">
-
             <div class="control-group control-group-large">
                 <label for="firstname">First name</label>
                 <input
@@ -101,7 +99,6 @@ $b = date_format($date, 'd.  Y');
                 maxlength="255"
                 />
             <?php echo form_error('Username'); ?>
-
         <div class="clear"></div>
 
         <div class="label_section">E-mail:</div>
@@ -133,7 +130,6 @@ $b = date_format($date, 'd.  Y');
 			<?php echo form_dropdown('currency', $currency_options, $user->currency); ?>
 			<?php echo form_error('currency'); ?>
 		</div>
-
 		<div class="clear"></div>
 	</div>
 
@@ -166,6 +162,9 @@ $b = date_format($date, 'd.  Y');
         <div class="groups_div">
             <label>Groups</label>
             <div class="groups_text">
+                <?php foreach($groups as $value): ?>
+                    <div class="inner_groups_div" data-id="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></div>
+                <?php endforeach; ?>
             </div>
         </div>
         <div class="control-group control-group-large">

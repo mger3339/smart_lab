@@ -232,10 +232,24 @@ $(document).ready(function() {
         url: $(this).attr('data-url'),
         dataType: 'json',
         done: function(e,data) {
-            console.log(data._response);
-            $('.avatar_id').val(data._response.result.content);
-            $('.edit_img img').attr('src', data._response.result.image);
+            console.log(data);
+            var token = $(data.result.content).find('input[name="smartlab_csrf_token"]').val();
+            $('input[name="smartlab_csrf_token"]').val(token);
+            $('.edit_img img').attr('src', data.result.image);
+
+            //window.location.href = data.result.redirect;
         }
     });
+
+    //$('.user_image').on('change', function(e){
+    //    if (e.target.files && e.target.files[0]) {
+    //        var reader = new FileReader();
+    //
+    //        reader.onload = function (v) {
+    //            $('.edit_img img').attr('src', v.target.result);
+    //        }
+    //        reader.readAsDataURL(e.target.files[0]);
+    //    }
+    //});
 
 });
