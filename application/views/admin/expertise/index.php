@@ -1,22 +1,22 @@
 <!--<pre>-->
-<!--    --><?php //print_r($groups); die; ?>
+<!--    --><?php //print_r($expertise); die; ?>
 <div class="admin-content client-applications">
-    <h2><span>Groups (<?php echo count($groups)?>)</h2>
+    <h2><span>Expertise (<?php echo count($expertise)?>)</h2>
     <div class="add-row">
-        <button class="add-row-btn" data-url="<?php echo "admin/groups/add"; ?>">Add a new group</button>
+        <button class="add-row-btn" data-url="<?php echo "admin/expertise/add"; ?>">Add a new expertise</button>
         <div class="clear"></div>
         <ul class="data-rows-list">
             <li class="data-row"></li>
         </ul>
     </div>
-    <?php if ($groups && ! empty($groups)): ?>
+    <?php if ($expertise && ! empty($expertise)): ?>
 
         <ul class="data-rows-list sortable-list" data-sort-update="<?php echo site_url("admin/groups/sort"); ?>">
-            <?php foreach ($groups as $row): ?>
+            <?php foreach ($expertise as $row): ?>
                 <li class="data-row" data-id="<?php echo $row->id; ?>">
-                    <?php echo $this->load->view('admin/groups/partials/groups_row', array(
+                    <?php echo $this->load->view('admin/expertise/partials/expertise_row', array(
                         'row'			=> $row,
-                        'groups'	=> $groups,
+                        'expertise'	=> $expertise,
                     ), TRUE); ?>
                 </li>
             <?php endforeach; ?>

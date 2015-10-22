@@ -56,7 +56,6 @@ $(document).ready(function() {
 		var dataRow = $(this).parents('.data-row');
 		var dataRowForm = $(this);
 		var requestURL = $(this).attr('action');
-
 		if (requestURL) {
 
 			var requestOptions = {

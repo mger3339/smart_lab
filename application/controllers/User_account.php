@@ -74,7 +74,6 @@ class User_account extends User_context {
             $this->json['status'] = 'success';
             $this->json['id'] = $add_image;
             $this->json['content'] = $this->update_account_content();
-            $this->json['redirect'] = 'user_account';
             $this->json['image'] = $data_file['url_path'];
         }
         else
@@ -99,13 +98,11 @@ class User_account extends User_context {
             $this->json['status'] = 'error';
             $this->json['message'] = 'Missed password when attempting update your password.';
             $this->json['content'] = $this->update_password_content();
-            return $this->ajax_response();
         }
         if(!$data['new_password'] && !$data['confirm_password'])
         {
             unset($data['new_password']);
             unset($data['confirm_password']);
-
             $this->json['content'] = $this->update_password_content();
         }
         else
@@ -121,7 +118,6 @@ class User_account extends User_context {
                 $this->json['status'] = 'error';
                 $this->json['message'] = 'There were errors when attempting update your password.';
                 $this->json['content'] = $this->update_password_content();
-                return $this->ajax_response();
             }
             $this->load->library('phpass');
 
@@ -153,6 +149,7 @@ class User_account extends User_context {
         {
             $this->json['status'] = 'error';
             $this->json['message'] = 'Please Enter minimum 3 expertise';
+            $this->json['content'] = $this->update_account_content();
         }
         else
         {
@@ -184,8 +181,9 @@ class User_account extends User_context {
                 $this->json['status'] = 'error';
                 $this->json['message'] = 'There were errors when attempting update your account.';
             }
+            $this->json['content'] = $this->update_account_content();
         }
-        $this->json['content'] = $this->update_account_content();
+        $this->json['redirect'] = 'user_account';
         return $this->ajax_response();
 	}
 
@@ -307,48 +305,57 @@ class User_account extends User_context {
     public function add_expertise()
     {
         $client_id = $this->client->id;
-        $expertise = $this->input->get('expertise');
-        $data_client = array(  'expertise' => $expertise,
-                        'client_id' => $client_id
-                      );
-        $data = array(  'expertise' => $expertise,);
-        $this->load->model('client_expertise_model');
-        $this->load->model('expertise_model');
-        $aaa = $this->expertise_model->get_by($data);
-        $aaa_client = $this->client_expertise_model->get_by($data);
-        if($aaa && !$aaa_client)
+        $expertise = trim($this->input->get('expertise'));
+        if(!empty($expertise))
         {
-            $add_expertise_client = $this->client_expertise_model->insert($data_client);
-            $data['id'] = $aaa->id;
-            if($add_expertise_client)
+            $data_client = array(  'expertise' => $expertise,
+                'client_id' => $client_id
+            );
+            $data = array(  'expertise' => $expertise,);
+            $this->load->model('client_expertise_model');
+            $this->load->model('expertise_model');
+            $aaa = $this->expertise_model->get_by($data);
+            $aaa_client = $this->client_expertise_model->get_by($data);
+            if($aaa && !$aaa_client)
             {
-                $this->json['status'] = 'success';
+                $add_expertise_client = $this->client_expertise_model->insert($data_client);
+                $data['id'] = $aaa->id;
+                if($add_expertise_client)
+                {
+                    $this->json['status'] = 'success';
+                }
+                else
+                {
+                    $this->json['status'] = 'error';
+                }
             }
-            else
+            if($aaa && $aaa_client)
             {
+                $this->json['message'] = 'Expertise exist in database';
                 $this->json['status'] = 'error';
             }
+            if(!$aaa && !$aaa_client)
+            {
+                $add_expertise = $this->expertise_model->insert($data);
+                $add_expertise_client = $this->client_expertise_model->insert($data_client);
+                $data['id'] = $add_expertise;
+                if($add_expertise && $add_expertise_client)
+                {
+                    $this->json['status'] = 'success';
+                }
+                else
+                {
+                    $this->json['status'] = 'error';
+                }
+            }
+            $this->json['expertise'] = $data;
         }
-        if($aaa && $aaa_client)
+        else
         {
-            $this->json['message'] = 'Expertise exist in database';
             $this->json['status'] = 'error';
+            $this->json['message'] = 'Empty field';
+
         }
-        if(!$aaa && !$aaa_client)
-        {
-            $add_expertise = $this->expertise_model->insert($data);
-            $add_expertise_client = $this->client_expertise_model->insert($data_client);
-            $data['id'] = $add_expertise;
-            if($add_expertise && $add_expertise_client)
-            {
-                $this->json['status'] = 'success';
-            }
-            else
-            {
-                $this->json['status'] = 'error';
-            }
-        }
-        $this->json['expertise'] = $data;
         return $this->ajax_response();
     }
 

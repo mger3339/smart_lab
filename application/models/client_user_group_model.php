@@ -26,6 +26,14 @@ class Client_user_group_model extends Smartlab_model {
         return $delete;
     }
 
+    public function delete_user_group_by_id($user_id,$group_id)
+    {
+        $this->_database
+            ->where('user_id', $user_id)
+            ->where('group_id', $group_id)
+            ->delete('client_user_groups');
+    }
+
 
 
 }

@@ -32,10 +32,8 @@ class Groups extends Admin_context {
     public function index()
     {
         // get the groups
-        $groups = $this->client_group_model
-            ->order_by('name', 'ASC')
-            ->get_all();
-
+        $groups_ids = $this->client_user_group_model->get_groups('user_id', $this->user->id);
+        $groups = $this->client_group_model->get_many($groups_ids);
 
         // add the required JS assets
         $this->js_assets[] = 'admin/data_rows.js';
@@ -98,6 +96,11 @@ class Groups extends Admin_context {
     {
         $data = $this->input->post();
         $insert = $this->client_group_model->insert($data);
+        $data_groups = array(
+            'user_id' => $this->user->id,
+            'group_id' => $insert
+        );
+        $this->client_user_group_model->insert($data_groups);
 
         if ( ! $insert )
         {
@@ -212,6 +215,7 @@ class Groups extends Admin_context {
         $this->confirm_valid_group($group_id);
 
         $delete = $this->client_group_model->delete($group_id);
+        $this->client_user_group_model->delete_user_group_by_id($this->user->id, $group_id);
 
         if ( ! $delete )
         {

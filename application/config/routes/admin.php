@@ -4,7 +4,6 @@
 $route['admin']
 		= 'admin/index';
 
-
 // Admin - users
 $route['admin/users']
 		= 'admin/users';
@@ -261,6 +260,53 @@ $route['admin/snapshots/sessions/delete/(:num)/(:num)'] = function($snapshot_ses
 $route['admin/snapshots/sessions/sort/(:any)']
     = "admin/snapshots/sessions/sort_sessions/$1/$2";
 
+// Admin - expertise
+$route['admin/expertise']
+    = 'admin/expertise';
+
+// Admin - expertise
+$route['admin/expertise/(:num)']
+    = "admin/expertise/index/$1";
+
+
+//  Admin expertise add
+$route['admin/expertise/add'] = function() {
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        return "admin/expertise/put_expertise/";
+    }
+
+    return "admin/expertise/add_expertise/";
+};
+
+$route['admin/expertise/add_new_expertise'] = function() {
+    return "admin/expertise/add_new_expertise";
+};
+
+// Admin - expertise edit
+$route['admin/expertise/edit/(:num)'] = function($expertise_id) {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        return "admin/expertise/update_expertise/{$expertise_id}";
+    }
+
+    return "admin/expertise/edit_expertise/{$expertise_id}";
+};
+
+
+// Admin - expertise delete
+$route['admin/expertise/delete/(:num)'] = function($expertise_id) {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        return "admin/expertise/delete_expertise/{$expertise_id}";
+    }
+
+    return "admin/expertise";
+};
 
 
 // Admin - groups

@@ -24,4 +24,13 @@ class Client_expertise_model extends Smartlab_model {
     {
         return $expertise_id;
     }
+
+    public function create_prototype($client_id = NULL)
+    {
+
+        $this->prototype['client_id'] = $client_id;
+        $this->prototype['name'] = "Expertise name";
+
+        return (object) $this->prototype;
+    }
 }
