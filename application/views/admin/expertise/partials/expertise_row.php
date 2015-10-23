@@ -12,8 +12,12 @@
 
     <div class="section">
 
-        <div class="control-group control-group-large zxc">
-            <p><?php echo $row->expertise; ?></p>
+        <div class="control-group control-group-large expertise_div">
+            <div class="control-group">
+                <input type="hidden" class="expertise_hidden" data-ids="" name="expertise_name" value="0" />
+                <input id="expertise_checkbox" type="checkbox" name="expertise_name" />
+                <label for="expertise_checkbox" data-id="<?php echo $row->id; ?>" class="expertise_chekbox"><?php echo $row->expertise; ?></label>
+            </div>
         </div>
 
         <div class="clear"></div>

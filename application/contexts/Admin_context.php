@@ -31,7 +31,6 @@ class Admin_context extends User_context {
 		// set the client admin areas and current area
 		$this->load->model('admin_area_model');
 		$this->admin_areas = $this->admin_area_model->get_all();
-		
 		if ( is_null($this->area) )
 		{
 			$this->area = $this->uri->segment(2);
@@ -73,7 +72,6 @@ class Admin_context extends User_context {
 		
 		// build the client admin navigation
 		$navigation_view =  $this->load->view('admin/page/navigation', $this->content, TRUE);
-		
 		$header_content = array();
 		$header_content['navigation_view'] = $navigation_view;
 		

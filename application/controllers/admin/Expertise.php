@@ -32,7 +32,7 @@ class Expertise extends Admin_context {
     public function index()
     {
         // get the groups
-        $expertise = $this->client_expertise_model
+        $expertise = $this->expertise_model
             ->order_by('expertise', 'ASC')
             ->get_all();
 
@@ -53,6 +53,11 @@ class Expertise extends Admin_context {
      * @return	function
      */
     public function add_expertise()
+    {
+        return $this->expertise_op('add', $this->client->id);
+    }
+
+    public function merge_expertise()
     {
         return $this->expertise_op('add', $this->client->id);
     }
@@ -227,48 +232,20 @@ class Expertise extends Admin_context {
 
         return redirect('admin/expertise/' . $this->client->id);
     }
-//
-//
-//    /**
-//     * Sort client groups
-//     *
-//     * @param	string
-//     * @return	function
-//     */
-//    public function sort_groups($group_ids)
-//    {
-//        $this->client_group_model->update_sort_order($this->client->id, $group_ids);
-//
-//        $this->json['message'] = 'Groups sort-order updated.';
-//
-//        return $this->ajax_response();
-//    }
-//
-//
-//    /**
-//     * Check that client is valid (exists)
-//     *
-//     * @return	function or void
-//     */
-//    protected function confirm_valid_client()
-//    {
-//        $client = $this->client_model->get($this->client->id);
-//
-//        if (!$client) {
-//            $this->set_flash_message('error', 'This client does not appear to exist.');
-//
-//            $redirect = 'admin/clients';
-//
-//            if ($this->input->is_ajax_request()) {
-//                $this->json['redirect'] = $redirect;
-//                return $this->ajax_response();
-//            }
-//
-//            return redirect($redirect);
-//        }
-//    }
-//
-//
 
+    public function add_merge()
+    {
+        $this->content['row_id'] = 'row_id';
+        $this->json['content'] = $this->load->view('admin/expertise/partials/merge_expertise_row', $this->content, TRUE);
+        $this->json['token'] = array('name' => $this->security->get_csrf_token_name(), 'value' => $this->security->get_csrf_hash());
+    }
 
+    public function merge()
+    {
+        $data = $this->input->get('ids');
+        $expertise_id = explode(",", $data);
+        $this->expertise_model->merge_expertise($expertise_id);
+
+        return $this->ajax_response();
+    }
 }

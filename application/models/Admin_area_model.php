@@ -26,12 +26,6 @@ class Admin_area_model extends CI_Model {
             'settings'		=> array(
                 'title'			=> 'Settings',
             ),
-            'account'		=> array(
-                'title'			=> 'Account',
-            ),
-
-
-
      );
 
 
@@ -44,6 +38,5 @@ class Admin_area_model extends CI_Model {
 	{
 		return $this->areas;
 	}
-
 
 }

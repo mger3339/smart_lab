@@ -36,4 +36,10 @@ class Expertise_model extends Smartlab_model {
         }
         return $results;
     }
+
+    public function merge_expertise($expertise_id)
+    {
+        $this->_database->where_in('id', $expertise_id);
+        $this->_database->delete('expertises');
+    }
 }

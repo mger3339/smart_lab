@@ -1,6 +1,11 @@
-<!--<pre>-->
-<!--    --><?php //print_r($groups); die; ?>
 <div class="admin-content client-applications">
+    <div class="admin_menu_list">
+        <a href="<?php echo "email-hostname"; ?>"><div class="menu_list">Valid Email Hostnames</div></a>
+        <a href="<?php echo "settings"; ?>"><div class="menu_list">Access Setings</div></a>
+        <a href="<?php echo "expertise"; ?>"><div class="menu_list">Expertise</div></a>
+        <a href="<?php echo "groups"; ?>"><div class="menu_list">Groups</div></a>
+        <a href="<?php echo "users"; ?>"><div class="menu_list">Users list</div></a>
+    </div>
     <h2><span>Groups (<?php echo count($groups)?>)</h2>
     <div class="add-row">
         <button class="add-row-btn" data-url="<?php echo "admin/groups/add"; ?>">Add a new group</button>

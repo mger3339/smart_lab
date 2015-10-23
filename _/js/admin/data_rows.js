@@ -4,6 +4,7 @@ $(document).ready(function() {
 	var formActive = false;
 
 	var hideRowButtons = function() {
+        $('.merge-row-btn').hide();
 		$('.add-row-btn').hide();
 		$('.edit-row-btn').hide();
 		$('.delete-row-btn').hide();
@@ -17,6 +18,7 @@ $(document).ready(function() {
 	}
 
 	var showRowButtons = function() {
+        $('.merge-row-btn').show();
 		$('.add-row-btn').show();
 		$('.edit-row-btn').show();
 		$('.delete-row-btn').show();
@@ -30,7 +32,7 @@ $(document).ready(function() {
 	}
 
 	// add - put row
-	$('.add-row').on('click', '.add-row-btn, .import-row-btn', function(event) {
+	$('.add-row').on('click', '.add-row-btn, .import-row-btn','.merge-row-btn', function(event) {
 		var dataRow = $(this).siblings('.data-rows-list').find('.data-row');
 		var requestURL = $(this).attr('data-url');
 		if (requestURL) {
@@ -574,6 +576,44 @@ $(document).ready(function() {
         $(".check_users").each(function(){
             this.checked = false;
         });
+    });
+
+
+    //$('#wrap').on('change', 'input#expertise_checkbox[type=checkbox]', function(e) {
+    //    debugger;
+    //    $(e.target).parent().find('label').toggleClass('checked');
+    //
+    //    //$(this).siblings('.expertise_chekbox').toggleClass('checked');
+    //});
+    window.ids = [];
+    $('body').on('click', '.expertise_chekbox', function(){
+        $(this).parent().find('label').toggleClass('checked');
+
+        if($(this).hasClass('checked') == true){
+            window.ids.push($(this).attr('data-id'));
+        }
+        else{
+            removeItem = $(this).attr('data-id');
+            window.ids.splice( $.inArray(removeItem, window.ids), 1 );
+        }
+        $('.expertise_hidden').val(window.ids);
+    });
+
+
+    $('body').on('click', '.merge-row-btn', function(){
+        var ids = $('.expertise_hidden').val();
+        var requestURL = $(this).attr('data-url');
+        if (requestURL) {
+            var requestOptions = {
+                type: 'GET',
+                data: {ids: ids},
+                success: function (data) {
+                    console.log(data);
+                }
+            };
+
+            ajaxRequest(requestURL, requestOptions);
+        }
     });
 
 });
