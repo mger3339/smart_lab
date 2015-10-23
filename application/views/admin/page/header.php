@@ -1,3 +1,4 @@
+
 <div id="header">
 	
 	<div class="content">
@@ -13,7 +14,6 @@
 	<div id="main-navigation">
 
 		<div class="content">
-			
 			<?php echo $navigation_view; ?>
 
 			<div class="clear"></div>

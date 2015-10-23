@@ -63,6 +63,26 @@ $route['admin/settings/email-hostnames/delete/(:num)']
 		= "admin/settings/email_hostnames/delete_email_hostname/$1";
 
 
+
+// Email_hostname - settings
+$route['admin/email-hostname']
+    = 'admin/email_hostnames/email_hostname_settings/index';
+
+// Admin - settings - email hostnames add
+$route['admin/email-hostnames/email-hostnames/add']
+    = "admin/email_hostnames/email_hostnames/put_email_hostname";
+
+// Admin - settings - email hostnames edit
+$route['admin/email-hostnames/email-hostnames/update/(:num)']
+    = "admin/email_hostnames/email_hostnames/update_email_hostname/$1";
+
+// Admin - settings - email hostnames delete
+$route['admin/email-hostnames/email-hostnames/delete/(:num)']
+    = "admin/email_hostnames/email_hostnames/delete_email_hostname/$1";
+
+
+
+
 // Admin - account
 $route['admin/account']
 		= 'admin/account';
