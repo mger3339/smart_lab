@@ -199,6 +199,7 @@ class Users extends Admin_context {
 	{
 		$success = TRUE;
 		$data = $this->input->post();
+        unset($data['ids']);
         // set up form validation for password submission
         $this->load->library('form_validation');
         $this->form_validation->set_rules('new_password', 'new password', 'required|trim|min_length[8]|valid_password');

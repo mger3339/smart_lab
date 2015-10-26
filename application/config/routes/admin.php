@@ -301,6 +301,17 @@ $route['admin/expertise/add'] = function() {
     return "admin/expertise/add_expertise/";
 };
 
+$route['admin/expertise/add_merge'] = function() {
+
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    {
+        return "admin/expertise/put_merge/";
+    }
+
+    return "admin/expertise/add_merge/";
+};
+
 $route['admin/expertise/add_new_expertise'] = function() {
     return "admin/expertise/add_new_expertise";
 };

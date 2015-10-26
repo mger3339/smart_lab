@@ -1,7 +1,7 @@
 <?php $row_id = (property_exists($row, 'id')) ? 'client-group-' . $row->id : 'new-client-group'; ?>
 
 <?php if ($action == 'add'): ?>
-    <?php echo form_open("admin/expertise/add", array('id' => $row_id, 'class' => 'add-row-form')); ?>
+    <?php echo form_open("admin/expertise/add_merge", array('id' => $row_id, 'class' => 'add-row-form')); ?>
 <?php elseif ($action == 'edit'): ?>
     <?php echo form_open("admin/expertise/edit/{$row->id}", array('id' => $row_id, 'class' => 'edit-row-form')); ?>
 <?php endif; ?>

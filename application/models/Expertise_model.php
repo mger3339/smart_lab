@@ -42,4 +42,19 @@ class Expertise_model extends Smartlab_model {
         $this->_database->where_in('id', $expertise_id);
         $this->_database->delete('expertises');
     }
+
+    public function create_prototype($client_id = NULL)
+    {
+
+        $this->prototype['client_id'] = $client_id;
+        $this->prototype['name'] = "Expertise name";
+
+        return (object) $this->prototype;
+    }
+
+    public function delete_expertises($expertise_ids)
+    {
+        $this->_database->where_in('id', $expertise_ids);
+        $this->_database->delete('expertises');
+    }
 }

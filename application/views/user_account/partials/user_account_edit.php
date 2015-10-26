@@ -1,5 +1,5 @@
 <!--<pre>-->
-<!--    --><?php //print_r($groups); die; ?>
+<!--    --><?php //print_r($expertise_options); die; ?>
 <?php
 if($user_info)
 {
@@ -197,7 +197,7 @@ $b = date_format($date, 'd.  Y');
             </div>
             <?php $expertise_string = array(); ?>
             <?php foreach($expertise_options as $expertise): ?>
-                <?php $expertise_string[] = $expertise->id; ?>
+                <?php $expertise_string[] = $expertise->expertise_id; ?>
             <div class="expertise_name"><span class="expertise_span"><?php echo $expertise->expertise; ?></span><span class="close_expertise" id="<?php echo $expertise->id; ?>" data-delete-url="<?php echo base_url('user_account/delete_expertise') ?>">X</span></div>
             <?php endforeach; ?>
         </div>

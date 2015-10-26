@@ -57,9 +57,9 @@ class Expertise extends Admin_context {
         return $this->expertise_op('add', $this->client->id);
     }
 
-    public function merge_expertise()
+    public function add_merge()
     {
-        return $this->expertise_op('add', $this->client->id);
+        return $this->merge_op('add', $this->client->id);
     }
 
 
@@ -74,13 +74,13 @@ class Expertise extends Admin_context {
     {
         if ($action === 'add')
         {
-            $expertise = $this->client_expertise_model->create_prototype($this->client->id);
+            $expertise = $this->expertise_model->create_prototype($this->client->id);
 
             $this->content['action_title'] = 'Add a new expertise';
         }
         else // edit
         {
-            $expertise = $this->client_expertise_model->get($expertise_id);
+            $expertise = $this->expertise_model->get($expertise_id);
 
             $this->content['action_title'] = "Edit <span>{$expertise->expertise}</span>";
         }
@@ -89,6 +89,29 @@ class Expertise extends Admin_context {
 
 
         $this->json['content'] = $this->load->view('admin/expertise/partials/expertise_add_edit_row', $this->content, TRUE);
+
+        return $this->ajax_response();
+    }
+
+    public function merge_op($action = 'add', $expertise_id = NULL)
+    {
+        if ($action === 'add')
+        {
+            $expertise = $this->expertise_model->create_prototype($this->client->id);
+
+            $this->content['action_title'] = 'Merge expertises';
+        }
+        else // edit
+        {
+            $expertise = $this->expertise_model->get($expertise_id);
+
+            $this->content['action_title'] = "Edit <span>{$expertise->expertise}</span>";
+        }
+        $this->content['action'] = $action;
+        $this->content['row'] = $expertise;
+
+
+        $this->json['content'] = $this->load->view('admin/expertise/partials/expertise_merge_add_edit_row', $this->content, TRUE);
 
         return $this->ajax_response();
     }
@@ -102,8 +125,9 @@ class Expertise extends Admin_context {
     public function put_expertise()
     {
         $data = $this->input->post();
-        $data_expertise = array('expertise' => $data['name'] , 'client_id' => $data['client_id'] );
-        $insert = $this->client_expertise_model->insert($data_expertise);
+        unset($data['ids']);
+        $data_expertise = array('expertise' => $data['name']);
+        $insert = $this->expertise_model->insert($data_expertise);
 
         if ( ! $insert )
         {
@@ -119,11 +143,46 @@ class Expertise extends Admin_context {
         return $this->ajax_response();
     }
 
+    public function put_merge()
+    {
+        $data = $this->input->post();
+        $expertise_ids = explode(",", $data['ids']);
+        $data_expertise = array('expertise' => $data['name']);
+        $bbb = $this->client_expertise_model->get_expertises_by_id($expertise_ids);
+        $user_id = array();
+        foreach($bbb as $item){
+            $user_id[] = $item->user_id;
+        }
+        $insert = $this->expertise_model->insert($data_expertise);
+        foreach($user_id as $user_id)
+        {
+            $data_client_expertise = array('expertise_id' => $insert, 'user_id' => $user_id);
+            $insert_client = $this->client_expertise_model->insert($data_client_expertise);
+        }
+        $delete_id = $this->client_expertise_model->delete_expertises($expertise_ids);
+//        echo "<pre>";
+//        print_r($delete_id); die;
+        $this->expertise_model->delete_expertises($expertise_ids);
+
+        if ( ! $insert || !$insert_client )
+        {
+            $this->json['status'] = 'error';
+            $this->json['message'] = 'There errors when attempting to merge expertises.';
+            return $this->add_merge($this->client->id);
+        }
+
+        $this->set_flash_message('success', 'Expertises successfully merged.');
+
+        $this->json['redirect'] = 'admin/expertise/' . $this->client->id;
+
+        return $this->ajax_response();
+    }
+
     public function add_new_expertise()
     {
         $data = $this->input->post();
-        $data_expertise = array('expertise' => $data['name'] , 'client_id' => $data['client_id'] );
-        $insert = $this->client_expertise_model->insert($data_expertise);
+        $data_expertise = array('expertise' => $data['name']);
+        $insert = $this->expertise_model->insert($data_expertise);
 
         $this->content['row_id'] = 'row_id';
         $this->json['insert'] = $insert;
@@ -157,10 +216,9 @@ class Expertise extends Admin_context {
      */
     protected function confirm_valid_expertise($expertise_id)
     {
-        $expertise = $this->client_expertise_model->get_by(array(
-            'id'			=> $expertise_id,
-            'client_id'		=> $this->client->id,
-        ));
+        $expertise = $this->expertise_model->get_by(array(
+                                                        'id' => $expertise_id,
+                                                    ));
 
         if ( ! $expertise )
         {
@@ -189,8 +247,8 @@ class Expertise extends Admin_context {
     {
         $this->confirm_valid_expertise($expertise_id);
         $data = $this->input->post();
-        $data_expertise = array('expertise' => $data['name'] , 'client_id' => $data['client_id'] );
-        $update = $this->client_expertise_model->update($expertise_id, $data_expertise);
+        $data_expertise = array('expertise' => $data['name']);
+        $update = $this->expertise_model->update($expertise_id, $data_expertise);
 
         if ( ! $update )
         {
@@ -199,8 +257,8 @@ class Expertise extends Admin_context {
             return $this->edit_group($expertise_id);
         }
 
-        $this->content['row'] = $this->client_expertise_model->get($expertise_id);
-        $this->content['groups'] = $this->client_expertise_model->get_all();
+        $this->content['row'] = $this->expertise_model->get($expertise_id);
+        $this->content['groups'] = $this->expertise_model->get_all();
 
         $this->json['message'] = 'Expertise successfully updated.';
         $this->json['content'] = $this->load->view('admin/expertise/partials/expertise_row', $this->content, TRUE);
@@ -219,7 +277,7 @@ class Expertise extends Admin_context {
     {
         $this->confirm_valid_expertise($expertise_id);
 
-        $delete = $this->client_expertise_model->delete($expertise_id);
+        $delete = $this->expertise_model->delete($expertise_id);
 
         if ( ! $delete )
         {
@@ -233,19 +291,4 @@ class Expertise extends Admin_context {
         return redirect('admin/expertise/' . $this->client->id);
     }
 
-    public function add_merge()
-    {
-        $this->content['row_id'] = 'row_id';
-        $this->json['content'] = $this->load->view('admin/expertise/partials/merge_expertise_row', $this->content, TRUE);
-        $this->json['token'] = array('name' => $this->security->get_csrf_token_name(), 'value' => $this->security->get_csrf_hash());
-    }
-
-    public function merge()
-    {
-        $data = $this->input->get('ids');
-        $expertise_id = explode(",", $data);
-        $this->expertise_model->merge_expertise($expertise_id);
-
-        return $this->ajax_response();
-    }
 }

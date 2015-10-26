@@ -32,7 +32,7 @@ $(document).ready(function() {
 	}
 
 	// add - put row
-	$('.add-row').on('click', '.add-row-btn, .import-row-btn','.merge-row-btn', function(event) {
+	$('.add-row').on('click', '.add-row-btn, .import-row-btn, .merge-row-btn', function(event) {
 		var dataRow = $(this).siblings('.data-rows-list').find('.data-row');
 		var requestURL = $(this).attr('data-url');
 		if (requestURL) {
@@ -54,15 +54,16 @@ $(document).ready(function() {
 	});
 
 	$('.add-row').on('submit', '.add-row-form', function(event) {
-
+        var ids = $('.expertise_hidden').val();
+        var data = $(this).serialize();
+        data += "&ids="+ids;
 		var dataRow = $(this).parents('.data-row');
-		var dataRowForm = $(this);
 		var requestURL = $(this).attr('action');
 		if (requestURL) {
 
 			var requestOptions = {
 				type: 'POST',
-				data: $(dataRowForm).serialize(),
+				data: data,
 				success: function(data) {
                     console.log(data);
 					if (data.status == 'error' && data.content) {
@@ -77,6 +78,23 @@ $(document).ready(function() {
 
 		event.preventDefault();
 	});
+
+    //$('body').on('click', '.merge-row-btn', function(){
+    //    var ids = $('.expertise_hidden').val();
+    //    var requestURL = $(this).attr('data-url');
+    //    if (requestURL) {
+    //        var requestOptions = {
+    //            type: 'GET',
+    //            data: {ids: ids},
+    //            success: function (data) {
+    //                console.log(data);
+    //            }
+    //        };
+    //
+    //        ajaxRequest(requestURL, requestOptions);
+    //    }
+    //});
+
 
     $('.data-role-row').on('submit', '.user-role-row-form', function(event) {
         var dataRow = $(this).parents('.data-row');
@@ -599,22 +617,6 @@ $(document).ready(function() {
         $('.expertise_hidden').val(window.ids);
     });
 
-
-    $('body').on('click', '.merge-row-btn', function(){
-        var ids = $('.expertise_hidden').val();
-        var requestURL = $(this).attr('data-url');
-        if (requestURL) {
-            var requestOptions = {
-                type: 'GET',
-                data: {ids: ids},
-                success: function (data) {
-                    console.log(data);
-                }
-            };
-
-            ajaxRequest(requestURL, requestOptions);
-        }
-    });
 
 });
 

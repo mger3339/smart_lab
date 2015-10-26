@@ -45,23 +45,6 @@ $(document).ready(function() {
         $('.add_interests_field:last').after(eee);
     });
 
-    $('body').on('click','.close_expertise',function(e){
-        e.stopPropagation();
-        var requestURL = $(this).attr('data-delete-url');
-        var expertise_id = $(this).attr('id');
-        if (requestURL) {
-            var requestOptions = {
-                type: 'GET',
-                data: {expertise_id:expertise_id},
-                success: function (data) {
-                    console.log(data);
-                    $(e.target).parent().remove();
-                }
-            };
-            ajaxRequest(requestURL, requestOptions);
-        }
-    });
-
     $('body').on('click','.close_interests',function(e){
         e.stopPropagation();
         var requestURL = $(this).attr('data-delete-url');
@@ -88,6 +71,7 @@ $(document).ready(function() {
                 type: 'GET',
                 data: {expertise:expertise},
                 success: function (data) {
+                    console.log(data);
                     var hidden_expertise = $('.hidden_expertise').val();
                     if(hidden_expertise == '')
                     {
@@ -99,7 +83,7 @@ $(document).ready(function() {
                     if(data.status != 'error')
                     {
                         if($('.expertise_name').length > 0){
-                            $('.expertise_name:last').after('<div class="expertise_name"><span class="expertise_span">'+ data.expertise.expertise +'</span><span class="close_expertise">X</span></div>');
+                            $('.expertise_name:last').after('<div class="expertise_name"><span class="expertise_span">'+ data.expertise.expertise +'</span><span class="close_expertise" id="'+data.expertise.id+'">X</span></div>');
                             if($('.add_expertise_field').find('input').length == 1){
                                 then.parent().find('input').val('');
                             }
@@ -108,7 +92,7 @@ $(document).ready(function() {
                             }
                         }
                         else{
-                            var div = '<div class="expertise_name"><span class="expertise_span">'+data.expertise.expertise+'</span><span class="close_expertise">X</span></div>';
+                            var div = '<div class="expertise_name"><span class="expertise_span">'+data.expertise.expertise+'</span><span class="close_expertise" id="'+data.expertise.id+'">X</span></div>';
                             $('.expertise').append(div);
                             $('.add_expertise_field>input').val('');
                         }
@@ -116,6 +100,23 @@ $(document).ready(function() {
                 }
             };
 
+            ajaxRequest(requestURL, requestOptions);
+        }
+    });
+
+    $('body').on('click','.close_expertise',function(e){
+        e.stopPropagation();
+        var requestURL = $(this).attr('data-delete-url');
+        var expertise_id = $(this).attr('id');
+        if (requestURL) {
+            var requestOptions = {
+                type: 'GET',
+                data: {expertise_id:expertise_id},
+                success: function (data) {
+                    console.log(data);
+                    $(e.target).parent().remove();
+                }
+            };
             ajaxRequest(requestURL, requestOptions);
         }
     });

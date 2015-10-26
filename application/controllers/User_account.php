@@ -308,37 +308,18 @@ class User_account extends User_context {
         $expertise = trim($this->input->get('expertise'));
         if(!empty($expertise))
         {
-            $data_client = array(  'expertise' => $expertise,
-                'client_id' => $client_id
-            );
-            $data = array(  'expertise' => $expertise,);
+            $data = array(  'expertise' => $expertise);
             $this->load->model('client_expertise_model');
             $this->load->model('expertise_model');
             $aaa = $this->expertise_model->get_by($data);
-            $aaa_client = $this->client_expertise_model->get_by($data);
-            if($aaa && !$aaa_client)
-            {
-                $add_expertise_client = $this->client_expertise_model->insert($data_client);
-                $data['id'] = $aaa->id;
-                if($add_expertise_client)
-                {
-                    $this->json['status'] = 'success';
-                }
-                else
-                {
-                    $this->json['status'] = 'error';
-                }
-            }
-            if($aaa && $aaa_client)
-            {
-                $this->json['message'] = 'Expertise exist in database';
-                $this->json['status'] = 'error';
-            }
-            if(!$aaa && !$aaa_client)
+            if(!$aaa )
             {
                 $add_expertise = $this->expertise_model->insert($data);
+                $data_client = array(  'expertise_id' => $add_expertise,
+                    'user_id' => $this->user->id
+                );
                 $add_expertise_client = $this->client_expertise_model->insert($data_client);
-                $data['id'] = $add_expertise;
+                $data['id'] = $add_expertise_client;
                 if($add_expertise && $add_expertise_client)
                 {
                     $this->json['status'] = 'success';
@@ -346,6 +327,31 @@ class User_account extends User_context {
                 else
                 {
                     $this->json['status'] = 'error';
+                }
+            }
+            else
+            {
+                $aaa_client = $this->client_expertise_model->get_by('expertise_id', $aaa->id);
+                if(!$aaa_client)
+                {
+                    $data_client = array(  'expertise_id' => $aaa->id,
+                        'user_id' => $this->user->id
+                    );
+                    $add_expertise_client = $this->client_expertise_model->insert($data_client);
+                    $data['id'] = $add_expertise_client;
+                    if($add_expertise_client)
+                    {
+                        $this->json['status'] = 'success';
+                    }
+                    else
+                    {
+                        $this->json['status'] = 'error';
+                    }
+                }
+                else
+                {
+                    $this->json['status'] = 'error';
+                    $this->json['message'] = 'Expertise exist in database';
                 }
             }
             $this->json['expertise'] = $data;

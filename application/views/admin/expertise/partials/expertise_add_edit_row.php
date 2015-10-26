@@ -15,8 +15,6 @@
 <?php if ($action == 'edit'): ?>
 <?php endif; ?>
 
-    <input type="hidden" name="client_id" value="<?php echo $row->client_id; ?>" />
-
     <div class="control-group control-group-large">
         <label for="<?php echo $row_id; ?>-name">expertise name</label>
         <input
